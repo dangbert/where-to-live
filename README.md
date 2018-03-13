@@ -4,6 +4,7 @@ Software Engineering Group1:
 * Kyle
 * Rushmie
 * Jon Danko
+* Tyler
 
 # Apache / PHP Installation:
 ### Windows Setup:
