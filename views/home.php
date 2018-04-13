@@ -5,15 +5,12 @@
         <meta charset="utf-8">
 
         <!-- our css -->
-        <link href="static/style.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
         <!-- boostrap css -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>
-        <?php echo "<p>Hello world<p>"; ?>
-        <button type="button" id="search-button" class="btn btn-primary">Search</button>
-
         <!-- nav bar which will actually have search paramaters -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -34,6 +31,7 @@
                 </label>
                 Public Transportation
             </div>
+            <button type="button" id="search-button" class="btn btn-primary">Search</button>
 
         </div>
 
@@ -50,7 +48,7 @@
         <!-- bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <!-- our javascript -->
-        <script src="static/script.js"></script>
+        <script src="js/script.js"></script>
         <!-- import google maps api (using my api key) -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIWdpUpiQnAIxMvVywRq7aVMDqNeXNJGo&callback=initMap&libraries=places" async defer></script>
     </body>
