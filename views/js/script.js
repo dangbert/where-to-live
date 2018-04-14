@@ -39,6 +39,12 @@ function initMap() {
         zoom: 4
 //        mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+
+
+    // see getBounds() from: https://developers.google.com/maps/documentation/javascript/reference/3/#Map
+    map.addListener('bounds_changed', function () {
+        console.log(map.getBounds());
+    });
     
     
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
