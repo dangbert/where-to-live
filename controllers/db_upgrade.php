@@ -1,4 +1,5 @@
 <?php
+    set_time_limit(0);                          // script may take a while...
     // before running this, make sure you create a database called "code_fury" and a user "code_fury"
     $host = "localhost";
     $dbname = "code_fury";
@@ -105,14 +106,19 @@
             ADD healthcare INT(11) NULL;";
         $db->exec($sql);
 
-        $sql = "SELECT id, geo_id, state_id FROM counties;";
+        $sql = "SELECT id, geo_id, state_id FROM counties order by id asc;";
         $results = $db->query($sql)->fetchAll();
         foreach ($results as &$res) {
+            if ($res['state_id'] % 30 == 0) {
+                sleep(1);
+            }
+            if ($res['state_id'] % 200 == 0) {
+                sleep(5);
+            }
             // query datausa api for attributes about this county
             $url = "https://api.datausa.io/api/?show=geo&sumlevel=county&geo=" . $res['geo_id'] . "&year=latest&required=";
             $public_trans_vals = getRequest($url . "transport_publictrans,workers")['data'][0];
             if (empty($public_trans_vals)) {
-                echo $res['id'] . "flag1<br>";
                 $public_trans = NULL;
             } else {
                 $public_trans = floatval($public_trans_vals[2]) / floatval($public_trans_vals[3]);
@@ -129,11 +135,11 @@
             WHERE id = :county_id;");
             // leave attributes as NULL if the data doesn't exist
             $statement->execute(array(
-                "public_schools" => (empty($public_schools) && $public_schools !== 0 ? NULL : floatval($public_schools)),
-                "public_trans" => ($public_trans === NULL ? NULL : floatval($public_trans)),
-                "commute_time" => (empty($commute_time) && $commute_time !== 0 ? NULL : floatval($commute_time)),
-                "crime_rates" => (empty($crime_rates) && $crime_rates !== 0 ? NULL : floatval($crime_rates)),
-                "healthcare" => (empty($healthcare) && $healthcare !== 0 ? NULL : intval($healthcare)),
+                "public_schools" => ((empty($public_schools) && $public_schools !== 0) || is_nan($public_schools) ? NULL : floatval($public_schools)),
+                "public_trans" => ($public_trans === NULL || is_nan($public_trans) ? NULL : floatval($public_trans)),
+                "commute_time" => ((empty($commute_time) && $commute_time !== 0) || is_nan($commute_time) ? NULL : floatval($commute_time)),
+                "crime_rates" => ((empty($crime_rates) && $crime_rates !== 0) || is_nan($crime_rates) ? NULL : floatval($crime_rates)),
+                "healthcare" => ((empty($healthcare) && $healthcare !== 0) || is_nan($healthcare) ? NULL : intval($healthcare)),
                 "county_id" => $res['id']
             ));
         }
