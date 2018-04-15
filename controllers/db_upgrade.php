@@ -47,7 +47,7 @@
             $sql = "CREATE table counties(
             id INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
             state_id INT( 11 ) NOT NULL,
-            name VARCHAR( 30 ) NOT NULL,
+            name VARCHAR( 50 ) NOT NULL,
             geo_id VARCHAR( 20 ) NOT NULL);";
             $db->exec($sql);
 
@@ -79,20 +79,17 @@
 
             // iterate over each county in this state
             $state_id = $db->lastInsertID();       // ID of the current state
-            // TODO: apply to all states instead
-            if ($geo_id == "04000US72" || $geo_id == "04000US11"  || $geo_id == "04000US16") {
-                $url = "https://api.datausa.io/attrs/geo/" . $geo_id . "/children/";
-                $counties = getRequest($url)["data"];
-                foreach ($counties as &$county) {
-                    // insert row into 'counties' table
-                    $statement = $db->prepare("INSERT INTO counties(state_id, name, geo_id)
-                    VALUES(:state_id, :name, :geo_id)");
-                    $statement->execute(array(
-                        "state_id" => $state_id,
-                        "name" => explode(",", $county[1])[0], // some are like "Howard County, MD"
-                        "geo_id" => $county[0]
-                    ));
-                }
+            $url = "https://api.datausa.io/attrs/geo/" . $geo_id . "/children/";
+            $counties = getRequest($url)["data"];
+            foreach ($counties as &$county) {
+                // insert row into 'counties' table
+                $statement = $db->prepare("INSERT INTO counties(state_id, name, geo_id)
+                VALUES(:state_id, :name, :geo_id)");
+                $statement->execute(array(
+                    "state_id" => $state_id,
+                    "name" => explode(",", $county[1])[0], // some are like "Howard County, MD"
+                    "geo_id" => $county[0]
+                ));
             }
         }
         setDB_version($db, 1);
