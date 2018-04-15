@@ -16,11 +16,15 @@
         echo $e->getMessage();
     }
 
-    $latest_version = 1; // update this everytime a new version is added to this script
+    $latest_version = 2; // update this everytime a new version is added to this script
     $version = getDB_version($db);
-    echo "Current DB version is " . $version;
+    echo "Current DB version is " . $version . "<br>";
     if ($version == -1) {
         echo "ERROR: some table exist but not all. Delete tables and run again.";
+        die();
+    }
+    if ($version == $latest_version) {
+        echo "Database is already at the latest version.<br>";
         die();
     }
     if ($version == 0) {
@@ -46,6 +50,11 @@
             name VARCHAR( 30 ) NOT NULL,
             geo_id VARCHAR( 20 ) NOT NULL);";
             $db->exec($sql);
+
+            // index on state_id to make it faster
+            // TODO: consider also indexing on one or two of the data columns to make search even faster
+            $sql = "CREATE INDEX ix_state_id ON counties(state_id);";
+            $db->exec($sql);
         }
         catch(PDOException $e) {
             echo "Error creating table<br>";
@@ -55,6 +64,7 @@
         $url = "https://api.datausa.io/attrs/geo/01000US/children/";
         $states = getRequest($url)["data"];
         // iterate over each state (also includes "Puerto Rico" and "District of Columbia")
+        // TODO: consider omitting Puerto Rico
         foreach ($states as &$state) {
             $name = $state[1];     // state name
             $geo_id = $state[0];   // geo_id
@@ -69,8 +79,8 @@
 
             // iterate over each county in this state
             $state_id = $db->lastInsertID();       // ID of the current state
-            // do this for just MD for testing purposes (TODO: apply to all states)
-            if ($geo_id == "04000US24") {
+            // TODO: apply to all states instead
+            if ($geo_id == "04000US72" || $geo_id == "04000US11"  || $geo_id == "04000US16") {
                 $url = "https://api.datausa.io/attrs/geo/" . $geo_id . "/children/";
                 $counties = getRequest($url)["data"];
                 foreach ($counties as &$county) {
@@ -86,6 +96,52 @@
             }
         }
         setDB_version($db, 1);
+    }
+
+    if (getDB_version($db) == 1) {
+        // add columns to 'counties' table
+        $sql = "ALTER table counties
+            ADD public_schools DECIMAL(12,6) NULL,
+            ADD public_trans DECIMAL(12,6) NULL,
+            ADD commute_time DECIMAL(12,6) NULL,
+            ADD crime_rates DECIMAL(12,6) NULL,
+            ADD healthcare INT(11) NULL;";
+        $db->exec($sql);
+
+        $sql = "SELECT id, geo_id, state_id FROM counties;";
+        $results = $db->query($sql)->fetchAll();
+        foreach ($results as &$res) {
+            // query datausa api for attributes about this county
+            $url = "https://api.datausa.io/api/?show=geo&sumlevel=county&geo=" . $res['geo_id'] . "&year=latest&required=";
+            $public_trans_vals = getRequest($url . "transport_publictrans,workers")['data'][0];
+            if (empty($public_trans_vals)) {
+                echo $res['id'] . "flag1<br>";
+                $public_trans = NULL;
+            } else {
+                $public_trans = floatval($public_trans_vals[2]) / floatval($public_trans_vals[3]);
+            }
+
+            $public_schools = getRequest($url . "high_school_graduation")['data'][0][2];
+            $commute_time = getRequest($url . "mean_commute_minutes")['data'][0][2];
+            $crime_rates = getRequest($url . "violent_crime")['data'][0][2];
+            $healthcare = getRequest($url . "primary_care_physicians")['data'][0][2];
+
+            // now store the attributes in row in table
+            $statement = $db->prepare("UPDATE counties SET
+            public_schools = :public_schools, public_trans = :public_trans, commute_time = :commute_time, crime_rates = :crime_rates, healthcare = :healthcare
+            WHERE id = :county_id;");
+            // leave attributes as NULL if the data doesn't exist
+            $statement->execute(array(
+                "public_schools" => (empty($public_schools) && $public_schools !== 0 ? NULL : floatval($public_schools)),
+                "public_trans" => ($public_trans === NULL ? NULL : floatval($public_trans)),
+                "commute_time" => (empty($commute_time) && $commute_time !== 0 ? NULL : floatval($commute_time)),
+                "crime_rates" => (empty($crime_rates) && $crime_rates !== 0 ? NULL : floatval($crime_rates)),
+                "healthcare" => (empty($healthcare) && $healthcare !== 0 ? NULL : intval($healthcare)),
+                "county_id" => $res['id']
+            ));
+        }
+
+        setDB_version($db, 2);
     }
 
 
@@ -140,6 +196,6 @@
         $statement->execute(array(
             "version" => $version
         ));
-        echo "<br>Updated database to version " . $version;
+        echo "Updated database to version " . $version . "<br>";
     }
 ?>
