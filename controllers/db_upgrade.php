@@ -8,7 +8,7 @@
     echo "attempting to connect to mysql database...<br>";
     try {
         $db = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $username, $password);
-        $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); //Error Handling
+        $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); // Error Handling
         echo "connection success!<br>";
     }
     catch(PDOException $e) {
@@ -19,18 +19,28 @@
     // quit if the states table already exists
     $tmp = $db->prepare("show tables like 'states';");
     $tmp->execute();
-    if ($tmp->rowCount() != 0) {
-        echo "ERROR: table 'states' already exists<br>";
+    $tmp2 = $db->prepare("show tables like 'counties';");
+    $tmp2->execute();
+    if ($tmp->rowCount() != 0 || $tmp2->rowCount() != 0) {
+        echo "ERROR: table 'states' or 'counties' already exists<br>";
         die();
     }
 
-    // create table
+    // create tables
     try {
+        // create 'states' table
         $sql = "CREATE table states(
         id INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR( 30 ) NOT NULL,
         geo_id VARCHAR( 20 ) NOT NULL);";
+        $db->exec($sql);
 
+        // create 'counties' table
+        $sql = "CREATE table counties(
+        id INT( 11 ) AUTO_INCREMENT PRIMARY KEY,
+        state_id INT( 11 ) NOT NULL,
+        name VARCHAR( 30 ) NOT NULL,
+        geo_id VARCHAR( 20 ) NOT NULL);";
         $db->exec($sql);
     }
     catch(PDOException $e) {
@@ -39,27 +49,44 @@
 
     // get list of states and store in the 'states' table
     $url = "https://api.datausa.io/attrs/geo/01000US/children/";
-    $res = getRequest($url)["data"];
+    $states = getRequest($url)["data"];
     // iterate over each state (also includes "Puerto Rico" and "District of Columbia")
-    foreach ($res as &$val) {
-        $name = $val[1];     // state name
-        $geo_id = $val[0];   // geo_id
+    foreach ($states as &$state) {
+        $name = $state[1];     // state name
+        $geo_id = $state[0];   // geo_id
 
-        // insert row into table
+        // insert row into 'states' table
         $statement = $db->prepare("INSERT INTO states(name, geo_id)
         VALUES(:name, :geo_id)");
         $statement->execute(array(
             "name" => $name,
             "geo_id" => $geo_id
         ));
+
+        // iterate over each county in this state
+        $state_id = $db->lastInsertID();       // ID of the current state
+        // do this for just MD for testing purposes (TODO: apply to all states)
+        if ($geo_id == "04000US24") {
+            $url = "https://api.datausa.io/attrs/geo/" . $geo_id . "/children/";
+            $counties = getRequest($url)["data"];
+            foreach ($counties as &$county) {
+                // insert row into 'counties' table
+                $statement = $db->prepare("INSERT INTO counties(state_id, name, geo_id)
+                VALUES(:state_id, :name, :geo_id)");
+                $statement->execute(array(
+                    "state_id" => $state_id,
+                    "name" => explode(",", $county[1])[0], // some are like "Howard County, MD"
+                    "geo_id" => $county[0]
+                ));
+            }
+        }
     }
 
 
 
-    // go a GET request on $url and decode the result from json into an array
+    // do a GET request on $url and decode the result from json into an array
     // return: array
     function getRequest($url) {
-        echo "in getRequest";
         // url to GET info for this table
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
