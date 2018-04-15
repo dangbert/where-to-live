@@ -60,16 +60,19 @@ mysql code_fury -u code_fury -p   # then type in 'devpassword' when prompted.
 
 Note: linux php error log is located at /var/log/php-fpm/www-error.log
 
-### Script to create tables in database:
-On linux you might have to allow apache to make network calls (for curl):
+### Now Import the Database Data:
 ````bash
-sudo setsebool -P httpd_can_network_connect 1
+mysqldump code_fury -u code_fury -p < data/db_backupv2.sql
 ````
 
-Now create the tables by navigating to http://localhost/controllers/db_upgrade.php
+### How Database was made initially (no need to do this again):
 
-# Notes on Database Stuff:
 ````bash
-mysqldump code_fury -u code_fury -p > db_backup.sql    # backup database
-mysql code_fury -u code_fury -p < db_backup.sql        # import database
+sudo setsebool -P httpd_can_network_connect 1  # allow apache to make network calls (for curl)
+````
+Now create the tables by navigating to http://localhost/controllers/db_upgrade.php (takes a few hours)
+
+Then a backup of the database was made by:
+````bash
+mysqldump code_fury -u code_fury -p > db_backupv2.sql    # backup database
 ````
