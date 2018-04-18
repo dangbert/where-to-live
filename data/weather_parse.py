@@ -48,13 +48,15 @@ zip_norm = zip_norm.drop(columns = ['po_name'])
 
 
 weather_dat = [tmax, tmin, precip, zip_norm]
+
+#https://stackoverflow.com/questions/23668427/pandas-joining-multiple-dataframes-on-columns
 weather_dat = reduce(lambda left,right: pd.merge(left,right,on='station_id'), weather_dat)
 #print(weather_dat)
 
 
 # In[91]:
 
-
+# Data from: https://www.unitedstateszipcodes.org/zip-code-database/
 zip_county = pd.read_csv("zip_county.csv", encoding = 'latin-1')
 zip_county = zip_county.drop(columns = ['country', 'type', 'decommissioned', 'primary_city', 'acceptable_cities', 'unacceptable_cities', 'timezone', 'area_codes', 'world_region', 'latitude', 'longitude', 'irs_estimated_population_2015', 'timezone'])
 #print(zip_county)
