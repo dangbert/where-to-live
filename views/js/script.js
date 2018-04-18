@@ -1,6 +1,91 @@
 $(document).ready(function() {
-    console.log("jquery ready");
+
+    $( function() {
+        $( "#temp-range" ).slider({
+          range: true,
+          min: 5,
+          max: 90,
+          values: [ 5, 90 ],
+          slide: function( event, ui ) {
+            if (ui.values[ 0 ] > 70)
+                ui.values[ 0 ] = 70
+            
+            if (ui.values[ 1 ] < 20)
+                ui.values[ 1 ] = 20
+
+            $("#low-temp-value").text(ui.values[ 0 ])
+            $("#high-temp-value").text(ui.values[ 1 ])
+          }
+        });
+    } );
+
+    $( function() {
+        $( ".detail-slider" ).each(function(){
+            $(this).slider({
+                value:100,
+                min: 0,
+                max: 100,
+                step: 1,
+                slide: function( event, ui ) {
+                    $(this).next(".detail-slider-value").text(ui.value)
+                }
+            });
+        });
+    });
+
+    $( function() {
+        $( ".climate-slider" ).each(function(){
+            $(this).slider({
+                value:100,
+                min: 0,
+                max: 100,
+                step: 1,
+                slide: function( event, ui ) {
+                    $(this).next("#climate-slider-value").text(ui.value)
+                }
+            });
+        });
+    });
+
+    $( function() {
+        $( ".commute-slider" ).each(function(){
+            $(this).slider({
+                value:60,
+                min: 0,
+                max: 60,
+                step: 1,
+                slide: function( event, ui ) {
+                    $(this).next("#commute-slider-value").text(ui.value)
+                }
+            });
+        });
+    });
+    $(".checkbox").on("click", function(){
+        $(this).next(".detailed-criteria").toggle();
+        drawActiveSearch();
+    });
+    drawActiveSearch();
+
 });
+
+function drawActiveSearch(){
+    var active = "";
+    $(".toggle-menu-option").each(function(){
+        if($(this).is(':checked'))
+            active += $(this).attr("id") + ", "
+    });
+    $("#active-criteria").text(active.slice(0, -2));
+}
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+}
 
 $("#search-button").on("click", function() {
     // make a POST request to our search script
@@ -48,12 +133,12 @@ function initMap() {
     
     
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
-    var initialLocation;
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(initialLocation);
-            map.setZoom(11);
-        });
-    }
+//    var initialLocation;
+//    if(navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(function(position) {
+//            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//            map.setCenter(initialLocation);
+//            map.setZoom(11);
+//        });
+//    }
 }
