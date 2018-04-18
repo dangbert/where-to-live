@@ -7,12 +7,10 @@
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <!-- our css -->
-        <link href="css/style.css" rel="stylesheet">
         <!-- boostrap css and js -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
         <!-- our javascript -->
         <script src="js/script.js"></script>
         <!-- import google maps api (using my api key) -->
@@ -20,16 +18,31 @@
         
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <link href="css/style.css" rel="stylesheet">
     </head>
 
-    <body>
-        <nav class="navbar navbar-default">
+    <body background="background.png">
+        <nav class="navbar">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Search Menu</span>
-                    </a>
-                    <span id="active-criteria"></span>
+                    <table style="width:100%">
+                        <tr style="width: 100%">
+                            <td style="width: 10%;">                    
+                                <a class="navbar-brand" href="#">
+                                    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+                                </a>
+                            <td>
+                            <td style="width: 30%;">                    
+                                <span style="font-size:30px;" >Active Search Criteria:</span>
+                            <td>
+                            <td style="width: 45%;">
+                                <span id="active-criteria"></span>
+                            </td>
+                            <td style="width: 15%;">
+                                <div id="scope"></div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </nav>
@@ -147,11 +160,13 @@
                     </span>
                 </span>
             </div>
+            <br>
+
+            <center><div class="searchButtonHolder"><button type="button" class="btn btn-primary btn-lg btn-block">Search</button></div></center>
         </div>
         
-        <div id="main">
-            <!--where the map will be rendered-->
-            <center><div id="map"></div></center>
-        </div>
+        <!--where the map will be rendered-->
+        <center><div id="map"></div></center>
+
     </body>
 </html>

@@ -1,80 +1,88 @@
 $(document).ready(function() {
-
-    $( function() {
-        $( "#temp-range" ).slider({
-          range: true,
-          min: 5,
-          max: 90,
-          values: [ 5, 90 ],
-          slide: function( event, ui ) {
+    $( "#temp-range" ).slider({
+        range: true,
+        min: 5,
+        max: 90,
+        values: [ 5, 90 ],
+        slide: function( event, ui ) {
             if (ui.values[ 0 ] > 70)
-                ui.values[ 0 ] = 70
+                ui.values[ 0 ] = 70;
             
             if (ui.values[ 1 ] < 20)
-                ui.values[ 1 ] = 20
+                ui.values[ 1 ] = 20;
 
-            $("#low-temp-value").text(ui.values[ 0 ])
-            $("#high-temp-value").text(ui.values[ 1 ])
-          }
-        });
-    } );
+            $("#low-temp-value").text(ui.values[ 0 ]);
+            $("#high-temp-value").text(ui.values[ 1 ]);
+        }
+    });
 
-    $( function() {
-        $( ".detail-slider" ).each(function(){
-            $(this).slider({
-                value:100,
-                min: 0,
-                max: 100,
-                step: 1,
-                slide: function( event, ui ) {
-                    $(this).next(".detail-slider-value").text(ui.value)
-                }
-            });
+    $( ".detail-slider" ).each(function(){
+        $(this).slider({
+            value:100,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $(this).next(".detail-slider-value").text(ui.value);
+            }
         });
     });
 
-    $( function() {
-        $( ".climate-slider" ).each(function(){
-            $(this).slider({
-                value:100,
-                min: 0,
-                max: 100,
-                step: 1,
-                slide: function( event, ui ) {
-                    $(this).next("#climate-slider-value").text(ui.value)
-                }
-            });
+    $( ".climate-slider" ).each(function(){
+        $(this).slider({
+            value:100,
+            min: 0,
+            max: 100,
+            step: 1,
+            slide: function( event, ui ) {
+                $(this).next("#climate-slider-value").text(ui.value);
+            }
         });
     });
 
-    $( function() {
-        $( ".commute-slider" ).each(function(){
-            $(this).slider({
-                value:60,
-                min: 0,
-                max: 60,
-                step: 1,
-                slide: function( event, ui ) {
-                    $(this).next("#commute-slider-value").text(ui.value)
-                }
-            });
-        });
+    $( ".commute-slider" ).slider({
+        value:60,
+        min: 0,
+        max: 60,
+        step: 1,
+        slide: function( event, ui ) {
+            $(this).next("#commute-slider-value").text(ui.value);
+        }
     });
-    $(".checkbox").on("click", function(){
+    
+    $(".toggle-menu-option").each(function(){
+        $(this).prop('checked', true);
+    });
+
+    $(".checkbox").on("change", function(){
         $(this).next(".detailed-criteria").toggle();
-        drawActiveSearch();
+        setActiveSearch();
     });
-    drawActiveSearch();
-
+    setActiveSearch();
+    setScope()
 });
 
-function drawActiveSearch(){
-    var active = "";
+function setActiveSearch(){
+    var active = "<div class=\"columns\"><ul>";
     $(".toggle-menu-option").each(function(){
-        if($(this).is(':checked'))
-            active += $(this).attr("id") + ", "
+        if($(this).is(':checked')){
+                active += "<li>" + $(this).attr("id") + "</li> ";
+        }
     });
-    $("#active-criteria").text(active.slice(0, -2));
+    active += "</ul></div>";
+    $("#active-criteria").html(active.slice(0, -2));
+}
+
+function setScope(){
+    var scope = "states";
+    var otherScope = "counties";
+
+    if (scope == "states")
+        var direction = "in";
+    else
+        var direction = "out";
+
+    $("#scope").html("Currently searching for matching <b>" + scope + "</b>. Zoom " + direction + " on the map to change search to <b>" + otherScope + "</b>.");
 }
 
 function openNav() {
