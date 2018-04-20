@@ -6,6 +6,7 @@ Software Engineering Group1:
 * Jon Danko
 * Tyler
 * Doug
+* Brian
 
 # Apache / PHP Installation:
 ### Windows Setup:
@@ -62,7 +63,7 @@ Note: linux php error log is located at /var/log/php-fpm/www-error.log
 
 ### Now Import the Database Data:
 ````bash
-mysql code_fury -u code_fury -p < data/db_backupv2.sql
+mysql code_fury -u code_fury -p < data/db_backupv3.sql
 ````
 
 ### How Database was made initially (no need to do this again):
@@ -70,9 +71,10 @@ mysql code_fury -u code_fury -p < data/db_backupv2.sql
 ````bash
 sudo setsebool -P httpd_can_network_connect 1  # allow apache to make network calls (for curl)
 ````
-Now create the tables by navigating to http://localhost/controllers/db_upgrade.php (takes a few hours)
+1. Now create the tables by navigating to http://localhost/controllers/db_upgrade.php (takes a few hours)
+2. Then run the python script data/recareas/processActivities.py to upgrade the database to version 3 (which contains the recarea data)
 
 Then a backup of the database was made by:
 ````bash
-mysqldump code_fury -u code_fury -p > db_backupv2.sql    # backup database
+mysqldump code_fury -u code_fury -p > db_backupv3.sql    # backup database
 ````
