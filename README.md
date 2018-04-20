@@ -62,7 +62,7 @@ Note: linux php error log is located at /var/log/php-fpm/www-error.log
 
 ### Now Import the Database Data:
 ````bash
-mysqldump code_fury -u code_fury -p < data/db_backupv2.sql
+mysql code_fury -u code_fury -p < data/db_backupv2.sql
 ````
 
 ### How Database was made initially (no need to do this again):
