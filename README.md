@@ -10,9 +10,9 @@ Software Engineering Group1:
 
 # Apache / PHP Installation:
 ### Windows Setup:
-TODO: Someone explain how to install on windows
-Maybe this https://www.znetlive.com/blog/how-to-install-apache-php-and-mysql-on-windows-10-machine/
-Havent run through it yet though
+* Download and install wampserver: http://www.wampserver.com/en/
+* Once installed, place code_fury repo into wamp server /www/ directory
+* Start up wamp server and go to http://localhost/code_fury/views/home.html in browser
 
 ### Ubuntu Setup:
 If you are using ubuntu check out: https://www.vultr.com/docs/how-to-install-apache-mysql-and-php-on-ubuntu-16-04
