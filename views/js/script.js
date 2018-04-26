@@ -7,7 +7,7 @@ $(document).ready(function() {
         slide: function( event, ui ) {
             if (ui.values[ 0 ] > 70)
                 ui.values[ 0 ] = 70;
-            
+
             if (ui.values[ 1 ] < 20)
                 ui.values[ 1 ] = 20;
 
@@ -15,6 +15,8 @@ $(document).ready(function() {
             $("#high-temp-value").text(ui.values[ 1 ]);
         }
     });
+
+
 
     $( ".detail-slider" ).each(function(){
         $(this).slider({
@@ -28,16 +30,28 @@ $(document).ready(function() {
         });
     });
 
-    $( ".climate-slider" ).each(function(){
-        $(this).slider({
-            value:100,
-            min: 0,
-            max: 100,
-            step: 1,
-            slide: function( event, ui ) {
-                $(this).next("#climate-slider-value").text(ui.value);
-            }
-        });
+    // $( ".climate-slider" ).each(function(){
+    //     $(this).slider({
+    //         value:100,
+    //         min: 0,
+    //         max: 100,
+    //         step: 1,
+    //         slide: function( event, ui ) {
+    //             $(this).next("#climate-slider-value").text(ui.value);
+    //         }
+    //     });
+    // });
+    $( "#climate-dropdown" ).change(function(){
+        if ($(this).val() == 'Hotter'){
+            $("#rain-dropdown-").show();
+            $("#snow-dropdown").hide();
+        } else if ($(this).val() == "Colder"){
+            $("#rain-dropdown").hide();
+            $("#snow-dropdown").show();
+        } else {
+            $("#rain-dropdown").show();
+            $("#snow-dropdown").show();
+        }
     });
 
     $( ".commute-slider" ).slider({
@@ -49,7 +63,7 @@ $(document).ready(function() {
             $(this).next("#commute-slider-value").text(ui.value);
         }
     });
-    
+
     $(".toggle-menu-option").each(function(){
         $(this).prop('checked', true);
     });
@@ -60,6 +74,14 @@ $(document).ready(function() {
     });
     setActiveSearch();
     setScope()
+
+    $(".toggle-menu-option").each(function(){
+        $(this).click();
+    });
+    
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
 });
 
 function setActiveSearch(){
@@ -138,8 +160,8 @@ function initMap() {
     map.addListener('bounds_changed', function () {
         console.log(map.getBounds());
     });
-    
-    
+
+
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
 //    var initialLocation;
 //    if(navigator.geolocation) {
