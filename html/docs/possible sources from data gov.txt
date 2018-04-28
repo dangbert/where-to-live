@@ -1,0 +1,6 @@
+some climate / weather data - 
+	https://catalog.data.gov/dataset/climate-reconstructions
+stupid amount of data here, I'll dig through it - 
+	https://www.census.gov/library/publications/2011/compendia/statab/131ed.html
+public land records, types of land by state. will have to read through and put into csv tables
+	https://www.blm.gov/sites/blm.gov/files/PublicLandStatistics2016.pdf
