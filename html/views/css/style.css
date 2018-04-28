@@ -1,0 +1,167 @@
+/* */
+p {
+    font-weight: bold;
+}
+
+@image: 'http://pancaketheorem.com/stuff/demos/borderimage/wood.png';
+@bgImage:'http://tumodaurbana.com/wp-content/uploads/2013/05/tumodaurbana-expo-dali.jpg';
+#map {
+    height: 800px;
+    /* http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width */
+    width: 1000px;
+    background:url(@bgImage);
+    background-size: cover;
+
+    border: #2e1a12 solid 8px;
+    -webkit-border-image: url(@image) 200 stretch;
+    -moz-border-image: url(@image) 200 stretch;
+    border-image: url(@image) 200 stretch;
+    -webkit-box-shadow: inset 0px 0px 10px rgba(0,0,0,1);
+}
+
+.navbar-border{
+  background:url(@bgImage);
+  background-size: cover;
+
+  border: #2e1a12 solid 8px;
+  -webkit-border-image: url(@image) 200 stretch;
+  -moz-border-image: url(@image) 200 stretch;
+  border-image: url(@image) 200 stretch;
+  -webkit-box-shadow: inset 0px 0px 10px rgba(0,0,0,1);
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #2e1a12;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  color: #dfdfdf;
+
+}
+
+.sidenav a{
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #dfdfdf;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #0e0e0e;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+.sidenav {padding-top: 15px;}
+.sidenav a {font-size: 18px;}
+}
+
+.checkbox{
+  margin-left: 25px;
+}
+
+.search-label{
+  display:inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.toggle-menu-option{
+  vertical-align: middle;
+}
+
+.detailed-criteria{
+  margin-left: 30px;
+}
+
+.sub-option{
+  padding-left: 10px;
+}
+
+.detail-slider, .commute-slider{
+  width: 80%; margin:auto; display:inline-block;
+}
+
+.climate-slider{
+  width: 40%; margin:auto; display:inline-block;
+}
+
+.temp-value{
+  width: 5%; padding-left:10px; padding-right:15px; display:inline-block;
+}
+
+.active-criteria-holder{
+  display: inline-block;
+}
+
+ li{
+  float: left;
+  width: 150px;
+}
+
+li:nth-child(3n+1){ /*replace 4 with the number of columns*/
+  clear: left;
+}
+
+.navbar-default {
+  border: #2e1a12 solid 8px;
+}
+
+.navbar {
+  color: #dfdfdf;
+  background-color: #2e1a12;
+}
+
+.searchButtonHolder{
+  width: 90%;
+}
+
+#scope{
+  float: right;
+}
+
+.detailed-dropdown{
+    width: 75%;
+    text-align: center;
+    margin: auto;
+}
+
+.helper-text{
+    padding-left: 10px;
+    width: 30px;
+    height: 30px;
+    color: #dfdfdf;
+    display: inline-block;
+}
+
+.helper-svg{
+    fill: #dfdfdf;
+}
+
+.helper-svg:hover{
+    fill: #f9f9f9;
+}
