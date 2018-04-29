@@ -82,6 +82,67 @@ $(document).ready(function() {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
+
+    $("#search-button").on("click", function() {
+        // make a POST request to our search script
+        // TODO: don't hardcode the data (use the search inputs)
+        console.log("doing search");
+        $.ajax({
+            type: "POST",
+            url: "/controllers/search.php",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+              "schools": {
+                "enabled": true,
+                "value": 1
+              },
+              "transportation": {
+                "enabled": true,
+                "value": 1
+              },
+              "crime": {
+                "enabled": true,
+                "value": 1
+              },
+              "recreation": {
+                "enabled": true,
+                "value": {
+                    "has_biking": false,
+                    "has_climbing": false,
+                    "has_camping": true,
+                    "has_hiking": false,
+                    "has_hunting": false,
+                    "has_wilderness": false,
+                    "has_swimming": false
+                }
+              },
+              "climate": {
+                "enabled": true,
+                "value": {
+                  "temperature": 0,
+                  "precipitation": 1,
+                  "snowfall": 1
+                }
+              },
+              "healthcare": {
+                "enabled": true,
+                "value": 0
+              },
+              "commute": {
+                "enabled": true,
+                "value": 47
+              }
+            }),
+            success: function(resp) {
+                console.log(resp);
+                // TODO: display these results on the map
+            },
+            error: function(resp) {
+                console.log(resp);
+            }
+        });
+    });
 });
 
 function setActiveSearch(){
@@ -117,23 +178,6 @@ function closeNav() {
     document.getElementById("main").style.marginLeft= "0";
 }
 
-$("#search-button").on("click", function() {
-    // make a POST request to our search script
-    $.ajax({
-        type: "POST",
-        url: "/search.php",
-        data: {
-            "name": "code fury!"
-        },
-        success: function(resp) {
-            alert(resp);
-        },
-        error: function(resp) {
-            console.log(resp);
-        }
-    });
-});
-
 $("#close-nav").on("click", function() {
     closeNav();
 });
@@ -159,6 +203,13 @@ function initMap() {
     // see getBounds() from: https://developers.google.com/maps/documentation/javascript/reference/3/#Map
     map.addListener('bounds_changed', function () {
         console.log(map.getBounds());
+    });
+
+    // display a point on the map (for testing)
+    var myLatLng= {lat: 39.255, lng: -76.711};
+    var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
     });
 
 
