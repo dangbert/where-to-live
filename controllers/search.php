@@ -67,12 +67,11 @@
     $first = True;                              // we have used any of the varibles yet
     //print_r($data);
 
-    // schools:
-    // TODO: join with states so we can return the state name
     // TODO: in the frontend, require that that at least one variable be enabled
     // TODO: add "or $col is NULL" to everything
 
-    $sql = "SELECT id, name, state_id from counties where ";
+    // build the condition portion of the sql query string
+    $sql = "";
     // SCHOOLS (0: low, 1: medium, 2:high)
     if ($data["schools"]["enabled"] === TRUE) {
         $sql .= prepareCondition($data["schools"]["value"], $ranges, "schools", "public_schools");
@@ -123,11 +122,38 @@
         $sql .= " (commute_time <= " . $data["commute"]["value"] . ")";
         $first = False;
     }
-    // TODO: recreation
     // RECREATION:
+    if ($data["recreation"]["enabled"] === TRUE) {
+        $activities = array("biking", "climbing", "camping", "hiking", "hunting", "wilderness", "swimming");
+        foreach($activities as &$value) {
+            if ($data["recreation"]["value"]["has_$value"] == TRUE) {
+                $sql .= ($first ? "" : " and ");
+                $sql .= "($value >= 1)";
+                $first = False;
+            }
+        }
+    }
 
+    // this part of the query combines the tables (counties, states, recareas) into a table of rows of counties with the added fields state (state name) and fields for the number of recareas in the county that provide each rec activity
+    $combineQuery = "
+        (SELECT counties.*, states.name as state from counties join states on counties.state_id = states.id) t1
+        LEFT JOIN
+        (select county_id, sum(has_biking) as biking, sum(has_climbing) as climbing, sum(has_camping) as camping, sum(has_hiking) as hiking, sum(has_hunting) as hunting, sum(has_wilderness) as wilderness, sum(has_swimming) as swimming from recareas group by county_id) t2
+        ON t1.id = t2.county_id
+        ";
 
-    echo $sql;
+    // final query string, apply the conditions to the combined table and just get the state and county name of the results
+    $sql = "SELECT state, name as county FROM ($combineQuery) WHERE $sql;";
+    //echo $sql . "\n\n";
+
+    // do the query and return the results as JSON
+    $results = $db->query($sql)->fetchAll();
+    $arr = array();
+    foreach($results as &$row) {
+        array_push($arr, array("county" => $row["county"], "state" => $row["state"]));
+        //print_r($row);
+    }
+    echo json_encode($arr);
 
 
     // create portion of search string for given column
