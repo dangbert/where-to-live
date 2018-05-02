@@ -89,7 +89,7 @@ $(document).ready(function() {
         console.log("doing search");
         $.ajax({
             type: "POST",
-            url: "/controllers/search.php",
+            url: "/code_fury/controllers/search.php",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify({
@@ -137,6 +137,10 @@ $(document).ready(function() {
             success: function(resp) {
                 console.log(resp);
                 // TODO: display these results on the map
+				// TO DO: Call makeRequest with county name and state for each result
+				// this works too makeRequest('Montgomery County Maryland')
+				makeRequest('Montgomery County MD')
+				
             },
             error: function(resp) {
                 console.log(resp);
@@ -189,8 +193,8 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
-
-
+//made it global so we can call on search success
+var service;
 // callback when google maps api loads
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -204,14 +208,19 @@ function initMap() {
     map.addListener('bounds_changed', function () {
         console.log(map.getBounds());
     });
+	
+	//https://developers.google.com/places/place-id
+	// set up places service to search for counties and drop pins
+	service = new google.maps.places.PlacesService(map);
 
+	//makeRequest('Montgomery County Maryland');
+	
     // display a point on the map (for testing)
     var myLatLng= {lat: 39.255, lng: -76.711};
     var marker = new google.maps.Marker({
             position: myLatLng,
             map: map
     });
-
 
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
 //    var initialLocation;
@@ -222,4 +231,26 @@ function initMap() {
 //            map.setZoom(11);
 //        });
 //    }
+}
+
+//from https://developers.google.com/places/place-id
+function makeRequest(countyName){
+	var request = {
+		location: map.getCenter(),
+		radius: '500',
+		query: countyName
+	};
+	service.textSearch(request, callback);
+}
+
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    var marker = new google.maps.Marker({
+      map: map,
+      place: {
+        placeId: results[0].place_id,
+        location: results[0].geometry.location
+      }
+    });
+  }
 }
