@@ -82,6 +82,27 @@ $(document).ready(function() {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
+
+    $("#search-button").on("click", function() {
+        $.ajax({
+            type: "POST",
+            url: "/code_fury/controllers/search.php",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(buildPost()),
+            success: function(resp) {
+                console.log(resp);
+                // TODO: display these results on the map
+				// TO DO: Call makeRequest with county name and state for each result
+				// this works too makeRequest('Montgomery County Maryland')
+				makeRequest('Montgomery County MD')
+
+            },
+            error: function(resp) {
+                console.log(resp);
+            }
+        });
+    });
 });
 
 function setActiveSearch(){
@@ -117,24 +138,6 @@ function closeNav() {
     document.getElementById("main").style.marginLeft= "0";
 }
 
-$("#search-button").on("click", function() {
-    buildPost();
-    // make a POST request to our search script
-    $.ajax({
-        type: "POST",
-        url: "/search.php",
-        data: {
-            "name": "code fury!"
-        },
-        success: function(resp) {
-            alert(resp);
-        },
-        error: function(resp) {
-            console.log(resp);
-        }
-    });
-});
-
 $("#close-nav").on("click", function() {
     closeNav();
 });
@@ -146,8 +149,8 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
-
-
+//made it global so we can call on search success
+var service;
 // callback when google maps api loads
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -162,6 +165,18 @@ function initMap() {
         console.log(map.getBounds());
     });
 
+	//https://developers.google.com/places/place-id
+	// set up places service to search for counties and drop pins
+	service = new google.maps.places.PlacesService(map);
+
+	//makeRequest('Montgomery County Maryland');
+
+    // display a point on the map (for testing)
+    var myLatLng= {lat: 39.255, lng: -76.711};
+    var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
+    });
 
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
 //    var initialLocation;
@@ -176,20 +191,45 @@ function initMap() {
 
 function buildPost(){
     var post = {"schools":{}, "transportation":{}, "crime":{}, "recreation":{}, "climate":{}, "healthcare":{}, "commute":{}};
-    post.schools["enabled"] = true;
-    post.schools["value"] = 0;
-    post.transportation["enabled"] = true;
-    post.transportation["value"] = 0;
-    post.crime["enabled"] = true;
-    post.crime["value"] = 0;
-    post.recreation["enabled"] = true;
-    post.recreation["value"] = 0;
-    post.climate["enabled"] = true;
-    post.climate["value"] = {"temperature":0, "precipitation":0, "snowfall":0};
-    post.healthcare["enabled"] = true;
-    post.healthcare["value"] = 0;
-    post.commute["enabled"] = true;
-    post.commute["value"] = 0;
-    console.log(post);
+    post.schools["enabled"] = $("#Public_Schools").is(':checked');
+    post.schools["value"] = $( "#public-schools-dropdown option:selected" ).val();
+    post.transportation["enabled"] = $("#Public_Transportation").is(':checked');
+    post.transportation["value"] = $( "#public-transportation-dropdown option:selected" ).val();
+    post.crime["enabled"] = $("#Crime").is(':checked');
+    post.crime["value"] = $( "#crime-dropdown option:selected" ).val();
+    post.recreation["enabled"] = $("#Outdoor_Recreation").is(':checked');
+    post.recreation["value"] = {"has_biking":$("#biking").is(':checked'), "has_climbing":$("#climbing").is(':checked'),
+                                "has_camping":$("#camping").is(':checked'), "has_hiking":$("#hiking").is(':checked'),
+                                "has_hunting":$("#hunting").is(':checked'), "has_wilderness":$("#wilderness").is(':checked'),
+                                "has_swimming":$("#swimming").is(':checked')};
+    post.climate["enabled"] = $("#Climate").is(':checked');
+    post.climate["value"] = {"temperature":$( "#climate-dropdown option:selected" ).val(), "precipitation":$( "#rain-dropdown option:selected" ).val(),
+                             "snowfall":$( "#snow-dropdown option:selected" ).val()};
+    post.healthcare["enabled"] = $("#Health_Care").is(':checked');
+    post.healthcare["value"] = $( "#healthcare-dropdown option:selected" ).val();;
+    post.commute["enabled"] = $("#Commute_Time").is(':checked');
+    post.commute["value"] = $( "#commute-slider-value" ).text();
     return post;
+}
+
+//from https://developers.google.com/places/place-id
+function makeRequest(countyName){
+	var request = {
+		location: map.getCenter(),
+		radius: '500',
+		query: countyName
+	};
+	service.textSearch(request, callback);
+}
+
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    var marker = new google.maps.Marker({
+      map: map,
+      place: {
+        placeId: results[0].place_id,
+        location: results[0].geometry.location
+      }
+    });
+  }
 }
