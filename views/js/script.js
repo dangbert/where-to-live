@@ -84,9 +84,11 @@ $(document).ready(function() {
     });
 
     $("#search-button").on("click", function() {
+        console.log(JSON.stringify(buildPost()));
         $.ajax({
             type: "POST",
-            url: "/code_fury/controllers/search.php",
+            //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
+            url: "/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
@@ -192,23 +194,23 @@ function initMap() {
 function buildPost(){
     var post = {"schools":{}, "transportation":{}, "crime":{}, "recreation":{}, "climate":{}, "healthcare":{}, "commute":{}};
     post.schools["enabled"] = $("#Public_Schools").is(':checked');
-    post.schools["value"] = $( "#public-schools-dropdown option:selected" ).val();
+    post.schools["value"] = parseInt($( "#public-schools-dropdown option:selected" ).val());
     post.transportation["enabled"] = $("#Public_Transportation").is(':checked');
-    post.transportation["value"] = $( "#public-transportation-dropdown option:selected" ).val();
+    post.transportation["value"] = parseInt($( "#public-transportation-dropdown option:selected" ).val());
     post.crime["enabled"] = $("#Crime").is(':checked');
-    post.crime["value"] = $( "#crime-dropdown option:selected" ).val();
+    post.crime["value"] = parseInt($( "#crime-dropdown option:selected" ).val());
     post.recreation["enabled"] = $("#Outdoor_Recreation").is(':checked');
     post.recreation["value"] = {"has_biking":$("#biking").is(':checked'), "has_climbing":$("#climbing").is(':checked'),
                                 "has_camping":$("#camping").is(':checked'), "has_hiking":$("#hiking").is(':checked'),
                                 "has_hunting":$("#hunting").is(':checked'), "has_wilderness":$("#wilderness").is(':checked'),
                                 "has_swimming":$("#swimming").is(':checked')};
     post.climate["enabled"] = $("#Climate").is(':checked');
-    post.climate["value"] = {"temperature":$( "#climate-dropdown option:selected" ).val(), "precipitation":$( "#rain-dropdown option:selected" ).val(),
-                             "snowfall":$( "#snow-dropdown option:selected" ).val()};
+    post.climate["value"] = {"temperature": parseInt($( "#climate-dropdown option:selected" ).val()), "precipitation": parseInt($( "#rain-dropdown option:selected" ).val()),
+                             "snowfall": parseInt($( "#snow-dropdown option:selected" ).val())};
     post.healthcare["enabled"] = $("#Health_Care").is(':checked');
-    post.healthcare["value"] = $( "#healthcare-dropdown option:selected" ).val();;
+    post.healthcare["value"] = parseInt($( "#healthcare-dropdown option:selected" ).val());
     post.commute["enabled"] = $("#Commute_Time").is(':checked');
-    post.commute["value"] = $( "#commute-slider-value" ).text();
+    post.commute["value"] = parseInt($( "#commute-slider-value" ).text());
     return post;
 }
 

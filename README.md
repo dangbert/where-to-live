@@ -32,6 +32,11 @@ sudo systemctl restart httd
 
 sudo dnf install yum-utils
 sudo dnf install php-mysqlnd
+
+# on AWS:
+sudo yum install mariadb-server mariadb-client
+# (then removed previously installed php stuff)
+sudo yum install php php-gd php-mysql php-mcrypt
 ````
 Note that the configuation file for apache is located at: /etc/httpd/conf/httpd.conf
 
