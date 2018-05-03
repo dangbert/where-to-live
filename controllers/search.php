@@ -143,7 +143,7 @@
         ";
 
     // final query string, apply the conditions to the combined table and just get the state and county name of the results
-    $sql = "SELECT state, name as county, public_schools, public_trans, commute_time, crime_rates, healthcare, precipitation, avg_temp, snow FROM ($combineQuery) WHERE $sql;";
+    $sql = "SELECT state, name as county, public_schools, public_trans, commute_time, crime_rates, healthcare, precipitation, avg_temp, snow, biking, climbing, camping, hiking, hunting, wilderness, swimming FROM ($combineQuery) WHERE $sql;";
     //echo $sql . "\n\n";
 
     // do the query and return the results as JSON
