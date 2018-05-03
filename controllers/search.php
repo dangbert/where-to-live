@@ -143,14 +143,14 @@
         ";
 
     // final query string, apply the conditions to the combined table and just get the state and county name of the results
-    $sql = "SELECT state, name as county FROM ($combineQuery) WHERE $sql;";
+    $sql = "SELECT state, name as county, public_schools, public_trans, commute_time, crime_rates, healthcare, precipitation, avg_temp, snow FROM ($combineQuery) WHERE $sql;";
     //echo $sql . "\n\n";
 
     // do the query and return the results as JSON
     $results = $db->query($sql)->fetchAll();
     $arr = array();
     foreach($results as &$row) {
-        array_push($arr, array("county" => $row["county"], "state" => $row["state"]));
+        array_push($arr, array("county" => $row["county"], "state" => $row["state"], "public_schools" => $row["public_schools"], "public_trans" => $row["public_trans"], "commute_time" => $row["commute_time"], "crime_rates" => $row["crime_rates"], "healthcare" => $row["healthcare"], "precipitation" => $row["precipitation"], "avg_temp" => $row["avg_temp"], "snow" => $row["snow"], "biking" => $row["biking"], "climbing" => $row["climbing"], "camping" => $row["camping"], "hiking" => $row["hiking"], "hunting" => $row["hunting"], "wilderness" => $row["wilderness"], "swimming" => $row["swimming"]));
         //print_r($row);
     }
     echo json_encode($arr);
