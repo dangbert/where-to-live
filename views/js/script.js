@@ -1,3 +1,4 @@
+var results = []; // global array of most recent search results
 $(document).ready(function() {
     $( "#temp-range" ).slider({
         range: true,
@@ -93,11 +94,15 @@ $(document).ready(function() {
             dataType: "json",
             data: JSON.stringify(buildPost()),
             success: function(resp) {
-                console.log(resp);
-                // TODO: display these results on the map
-				// TO DO: Call makeRequest with county name and state for each result
-				// this works too makeRequest('Montgomery County Maryland')
-				makeRequest('Montgomery County MD')
+                results = resp; // update this global variable
+                // TODO: delete all existing pins
+                console.log("there are " + results.length + " results");
+                for(var i=0; i<results.length; i++) {
+                    // show a pin for the current county
+                    var str = results[i].county + " " + results[i].state;
+                    makeRequest(str);
+                }
+                //makeRequest('Montgomery County MD')
 
             },
             error: function(resp) {
@@ -172,13 +177,6 @@ function initMap() {
 	service = new google.maps.places.PlacesService(map);
 
 	//makeRequest('Montgomery County Maryland');
-
-    // display a point on the map (for testing)
-    var myLatLng= {lat: 39.255, lng: -76.711};
-    var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map
-    });
 
     // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
 //    var initialLocation;
