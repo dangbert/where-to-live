@@ -78,7 +78,7 @@ $(document).ready(function() {
     $(".toggle-menu-option").each(function(){
         $(this).click();
     });
-    
+
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     });
@@ -118,6 +118,7 @@ function closeNav() {
 }
 
 $("#search-button").on("click", function() {
+    buildPost();
     // make a POST request to our search script
     $.ajax({
         type: "POST",
@@ -171,4 +172,24 @@ function initMap() {
 //            map.setZoom(11);
 //        });
 //    }
+}
+
+function buildPost(){
+    var post = {"schools":{}, "transportation":{}, "crime":{}, "recreation":{}, "climate":{}, "healthcare":{}, "commute":{}};
+    post.schools["enabled"] = true;
+    post.schools["value"] = 0;
+    post.transportation["enabled"] = true;
+    post.transportation["value"] = 0;
+    post.crime["enabled"] = true;
+    post.crime["value"] = 0;
+    post.recreation["enabled"] = true;
+    post.recreation["value"] = 0;
+    post.climate["enabled"] = true;
+    post.climate["value"] = {"temperature":0, "precipitation":0, "snowfall":0};
+    post.healthcare["enabled"] = true;
+    post.healthcare["value"] = 0;
+    post.commute["enabled"] = true;
+    post.commute["value"] = 0;
+    console.log(post);
+    return post;
 }
