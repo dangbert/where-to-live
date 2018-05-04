@@ -14,10 +14,11 @@
         <!-- our javascript -->
         <script src="js/script.js"></script>
         <!-- import google maps api (using my api key) -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIWdpUpiQnAIxMvVywRq7aVMDqNeXNJGo&callback=initMap&libraries=places" async defer></script>
-        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbzToWwyvwuRG5xYmLdH11JYVfF7x_2aE&callback=initMap&libraries=places" async defer></script>
+
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="css/style.css" rel="stylesheet">
     </head>
 
@@ -27,12 +28,12 @@
                 <div class="navbar-header">
                     <table style="width:100%">
                         <tr style="width: 100%">
-                            <td style="width: 10%;">                    
+                            <td style="width: 10%;">
                                 <a class="navbar-brand" href="#">
                                     <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
                                 </a>
                             <td>
-                            <td style="width: 30%;">                    
+                            <td style="width: 30%;">
                                 <span style="font-size:30px;" >Active Search Criteria:</span>
                             <td>
                             <td style="width: 45%;">
@@ -46,15 +47,15 @@
                 </div>
             </div>
         </nav>
-        
+
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <span class="checkbox">
-                <input checked class="toggle-menu-option" id="Public Schools" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Public Schools</h3>
+                <input checked class="toggle-menu-option" id="Public_Schools" data-toggle="toggle" type="checkbox">
+                <h3 class="search-label">Public Schools</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="public-schools">
-                <span>
+                <!-- <span>
                     <span class="school-detail-option sub-option">
                         <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Elementary</h3>
@@ -67,104 +68,132 @@
                         <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Highschool</h3>
                     </span>
+                </span> -->
+                <span>
+                    <select class="form-control detailed-dropdown" id="public-schools-dropdown">
+                      <option value="0">Low Ranking</option>
+                      <option value="1">Medium Ranking</option>
+                      <option value="2">High Ranking</option>
+                    </select>
                 </span>
             </div>
             <span class="checkbox">
-                <input checked class="toggle-menu-option" id="Public Transportation" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Public Transportation</h3>
+                <input checked class="toggle-menu-option" id="Public_Transportation" data-toggle="toggle" type="checkbox">
+                <h3 class="search-label">Public Transportation</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="public-transportation">
                 <span>
-                    <span>
+                    <!-- <span>
                         <div class="detail-slider" id="public-transportation-slider-bar"></div>
                         <div class="detail-slider-value" id="public-transportation-slider-value" style="width: 10%; padding-left: 10px; margin:auto; display:inline-block;">100</div>
-                    </span>
+                    </span> -->
+                    <select class="form-control detailed-dropdown" id="public-transportation-dropdown">
+                      <option value="0">Low Availability</option>
+                      <option value="1">Medium Availability</option>
+                      <option value="2">High Availability</option>
+                    </select>
                 </span>
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Crime" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Crime</h3>
+                <h3 class="search-label">Crime</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="crime">
                 <span>
-                    <span>
-                        <div class="detail-slider"  id="crime-slider-bar"></div>
-                        <div class="detail-slider-value" id="crime-slider-value" style="width: 10%; margin:auto; padding-left: 10px; display:inline-block;">100</div>
-                    </span>
+                    <select class="form-control detailed-dropdown" id="crime-dropdown">
+                      <option value="0">Low Crime Rate</option>
+                      <option value="1">Average Crime Rate</option>
+                    </select>
                 </span>
             </div>
             <span class="checkbox">
-                <input checked class="toggle-menu-option" id="Outdoor Recreation" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Outdoor Recreation</h3>
+                <input checked class="toggle-menu-option" id="Outdoor_Recreation" data-toggle="toggle" type="checkbox">
+                <h3 class="search-label">Outdoor Recreation</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="outdoor-recreation">
                 <span>
                     <span class="outdoor-recreation-detail-option sub-option">
-                        <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
+                        <input checked data-toggle="toggle" id="hiking" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Hiking</h3>
                     </span>
                     <span class="outdoor-recreation-detail-option sub-option">
-                        <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
+                        <input checked data-toggle="toggle" id="climbing" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Climbing</h3>
                     </span>
                     <span class="outdoor-recreation-detail-option sub-option">
-                        <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
+                        <input checked data-toggle="toggle" id="camping" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Camping</h3>
                     </span></br>
                     <span class="outdoor-recreation-detail-option sub-option">
-                        <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
-                        <h5 class="search-label">Fishing</h3>
+                        <input checked data-toggle="toggle" id="biking" data-style="ios" type="checkbox" data-size="mini">
+                        <h5 class="search-label">Biking</h3>
                     </span>
                     <span class="outdoor-recreation-detail-option sub-option">
-                        <input checked data-toggle="toggle" data-style="ios" type="checkbox" data-size="mini">
+                        <input checked data-toggle="toggle" id="swimming" data-style="ios" type="checkbox" data-size="mini">
+                        <h5 class="search-label">Swimming</h3>
+                    </span>
+                    <span class="outdoor-recreation-detail-option sub-option">
+                        <input checked data-toggle="toggle" id="wilderness" data-style="ios" type="checkbox" data-size="mini">
                         <h5 class="search-label">Wilderness</h3>
+                    </span>
+                    <span class="outdoor-recreation-detail-option sub-option">
+                        <input checked data-toggle="toggle" id="hunting" data-style="ios" type="checkbox" data-size="mini">
+                        <h5 class="search-label">Hunting</h3>
                     </span>
             </span>
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Climate" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Climate</h3>
+                <h3 class="search-label">Climate</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="climate">
                 <span>
-                    <h5 class="search-label">High/Low Temp:</h3>
-                    <div class="temp-value" id="low-temp-value" style="width: 5%; margin:auto; display:inline-block;">5</div>
-                    <div id="temp-range" style="width: 40%; margin:auto; display:inline-block;"></div>
-                    <div class="temp-value" id="high-temp-value" style="width: 5%; margin:auto; display:inline-block;">90</div>
-                    <h5 class="search-label">Precipitation:</h3>
-                    <div class="climate-slider" id="climate-slider-bar"></div>
-                    <div class="detail-slider-value" id="climate-slider-value" style="width: 10%; padding-left: 10px; display:inline-block;">100</div>
+                    <select class="form-control detailed-dropdown" id="climate-dropdown">
+                      <option value="0">No Preference</option>
+                      <option value="1">Hotter</option>
+                      <option value="2">Colder</option>
+                    </select>
+                    <select class="form-control detailed-dropdown secondary-option" id="rain-dropdown">
+                      <option value="0">Low Annual Percipitation</option>
+                      <option value="1">Medium Annual Percipitation</option>
+                      <option value="2">High Annual Percipitation</option>
+                    </select>
+                    <select class="form-control detailed-dropdown secondary-option" id="snow-dropdown">
+                      <option value="0">Low Annual Snowfall</option>
+                      <option value="1">Medium Annual Snowfall</option>
+                      <option value="2">High Annual Snowfall</option>
+                    </select>
                 </span>
             </div>
             <span class="checkbox">
-                <input checked class="toggle-menu-option" id="Health Care" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Health Care</h3>
+                <input checked class="toggle-menu-option" id="Health_Care" data-toggle="toggle" type="checkbox">
+                <h3 class="search-label">Health Care</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="health-care">
                 <span>
-                    <span>
-                        <div class="detail-slider" id="health-care-slider-bar"></div>
-                        <div class="detail-slider-value" id="health-care-slider-value" style="width: 10%; padding-left: 10px; margin:auto; display:inline-block;">100</div>
-                    </span>
+                    <select class="form-control detailed-dropdown" id="healthcare-dropdown">
+                      <option value="0">Average number of doctors to patients</option>
+                      <option value="1">High number of doctors to patients</option>
+                    </select>
                 </span>
             </div>
             <span class="checkbox">
-                <input checked class="toggle-menu-option" id="Commute Time" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Commute Time</h3>
+                <input checked class="toggle-menu-option" id="Commute_Time" data-toggle="toggle" type="checkbox">
+                <h3 class="search-label">Commute Time</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
             </span>
             <div class="detailed-criteria" id="commute-time">
                 <span>
                     <span>
                         <div class="commute-slider" id="commute-slider-bar"></div>
-                        <div class="commute-slider-value" id="commute-slider-value" style="width: 10%; padding-left: 10px; margin:auto; display:inline-block;">100</div>
+                        <div class="commute-slider-value" id="commute-slider-value" style="width: 10%; padding-left: 10px; margin:auto; display:inline-block;">60</div>
                     </span>
                 </span>
             </div>
             <br>
 
-            <center><div class="searchButtonHolder"><button type="button" class="btn btn-primary btn-lg btn-block">Search</button></div></center>
+            <center><div class="searchButtonHolder"><button id="search-button" type="button" class="btn btn-primary btn-lg btn-block">Search</button></div></center>
         </div>
-        
+
         <!--where the map will be rendered-->
         <center><div id="map"></div></center>
 

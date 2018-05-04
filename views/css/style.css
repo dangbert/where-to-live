@@ -11,7 +11,7 @@ p {
     width: 1000px;
     background:url(@bgImage);
     background-size: cover;
-  
+
     border: #2e1a12 solid 8px;
     -webkit-border-image: url(@image) 200 stretch;
     -moz-border-image: url(@image) 200 stretch;
@@ -142,4 +142,26 @@ li:nth-child(3n+1){ /*replace 4 with the number of columns*/
 
 #scope{
   float: right;
+}
+
+.detailed-dropdown{
+    width: 75%;
+    text-align: center;
+    margin: auto;
+}
+
+.helper-text{
+    padding-left: 10px;
+    width: 30px;
+    height: 30px;
+    color: #dfdfdf;
+    display: inline-block;
+}
+
+.helper-svg{
+    fill: #dfdfdf;
+}
+
+.helper-svg:hover{
+    fill: #f9f9f9;
 }
