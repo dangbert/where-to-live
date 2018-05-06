@@ -89,18 +89,20 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/controllers/search.php",                            // local database
+            url: "/code_fury/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
             success: function(resp) {
                 results = resp; // update this global variable
                 // TODO: delete all existing pins
+				//console.log(resp)
                 console.log("there are " + results.length + " results");
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
                     var str = results[i].county + " " + results[i].state;
-                    makeRequest(str);
+                    //makeRequest(str);
+					console.log(results[i])
                 }
                 //makeRequest('Montgomery County MD')
 
