@@ -8,9 +8,11 @@ import pymysql
 def main():
 	#data = formatData(False,0,False,0,False,0,True,True,True,True,True,True,True,True,False,0,0,0,False,0,False,60)
 	data = {"schools":{"enabled":False,"value":0},"transportation":{"enabled":False,"value":0},"crime":{"enabled":False,"value":0},"recreation":{"enabled":True,"value":{"has_biking":True,"has_climbing":True,"has_camping":True,"has_hiking":True,"has_hunting":True,"has_wilderness":True,"has_swimming":True}},"climate":{"enabled":False,"value":{"temperature":0,"precipitation":0,"snowfall":0}},"healthcare":{"enabled":False,"value":0},"commute":{"enabled":False,"value":60}}
+	callSearch(data)
+	dbResults()
 	# TO DO: fix buildQuery function
-	sql = buildQuery(data)
-	print(sql)
+	#sql = buildQuery(data)
+	#print(sql)
 	#TO DO: write function to compare results from search and database query
 	#cmpSearchDatabase()
 	
@@ -30,13 +32,13 @@ def dbResults():
 			sql = "SELECT * from counties limit 10"
 			cursor.execute(sql)
 			result = cursor.fetchall()
-			return result
+			print(result)
  
 	finally:
 		connection.close()
 
 def callSearch(data):
-	url = 'http:#localhost/code_fury/controllers/search.php'
+	url = 'http://localhost/code_fury/controllers/search.php'
 	
 	headers = requests.utils.default_headers()
 	#headers = {'content-type': 'application/json'} 
@@ -45,9 +47,10 @@ def callSearch(data):
 
 	#post request for search
 	resp = s.post(url, data = json.dumps(data), headers = headers)
-	#print(resp.text)
-	
-	print(resp.json()[0])
+	#print entire result
+	print(resp.text)
+	#prints the first result
+	#print(resp.json()[0])
 	
 def buildQuery(data):
 	first = True
