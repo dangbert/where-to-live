@@ -1,4 +1,11 @@
+var imported = document.createElement('markerclusterer');
+imported.src = 'var/www/html/views/js';
+document.head.appendChild(imported);
+
+
 var results = []; // global array of most recent search results
+var markers = [];
+var cmarker = [];
 $(document).ready(function() {
     $( "#temp-range" ).slider({
         range: true,
@@ -89,22 +96,38 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/code_fury/controllers/search.php",                            // local database
+            url: "/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
             success: function(resp) {
-                results = resp; // update this global variable
+
+		results = resp; // update this global variable
                 // TODO: delete all existing pins
-				//console.log(resp)
+		clearMarkers();
+
+
+		// Loop through and add all markers to map with results inside title
                 console.log("there are " + results.length + " results");
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
-                    var str = results[i].county + " " + results[i].state;
-                    //makeRequest(str);
-					console.log(results[i])
+                    var position = new google.maps.LatLng(results[i].lat, results[i].lng);
+		    var show = "Schools: " + results[i].public_schools + "\nTransportation: " +
+			 results[i].public_trans + "\nCommute:  " + results[i].commute_time + 
+			"\nCrime:  " + results[i].crime_rates + "\nHealthcare: " +
+			 results[i].healthcare + "\nPrecipitation: " + results[i].precipitation + 
+			"\nTemperature: " + results[i].ave_temp + "\n4Snow: " + results[i].snow;
+                    marker = new google.maps.Marker({
+			position: position,
+			map: map,
+			title: show
+		    });
                 }
-                //makeRequest('Montgomery County MD')
+
+		cmarker.push(marker);
+
+		// This isn't working, but I think I'm getting closer
+		//var markerClusterer = new MarkerClusterer(map, markers, {imagePath: '/var/www/html/views/m'});
 
             },
             error: function(resp) {
@@ -113,6 +136,13 @@ $(document).ready(function() {
         });
     });
 });
+
+function clearMarkers(){
+    for(i = 0; i<cmarker.length; i++){
+	cmarker[i].setMap(null);
+    }
+}
+
 
 function setActiveSearch(){
     var active = "<div class=\"columns\"><ul>";
@@ -162,6 +192,7 @@ function closeNav() {
 var service;
 // callback when google maps api loads
 function initMap() {
+    var latLng = null;
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.09024, lng: -100.712891}, //initially centered in the middle of the US, quickly replaced with current location
         zoom: 4
