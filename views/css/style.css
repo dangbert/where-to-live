@@ -165,3 +165,24 @@ li:nth-child(3n+1){ /*replace 4 with the number of columns*/
 .helper-svg:hover{
     fill: #f9f9f9;
 }
+
+.modal-content{
+    color: #2e1a12;
+    background-color: #dfdfdf;
+}
+
+.help-button{
+    background: transparent;
+    border: none;
+    width: 20px;
+    height: 20px;
+    padding: 0px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+.help-button:hover{
+    background: #285C8B;
+}
