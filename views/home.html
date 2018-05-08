@@ -15,7 +15,8 @@
         <script src="js/script.js"></script>
         <!-- import google maps api (using my api key) -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbzToWwyvwuRG5xYmLdH11JYVfF7x_2aE&callback=initMap&libraries=places" async defer></script>
-
+		<script src="/code_fury/views/js/markerclusterer.js" type="text/javascript"></script>
+	
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -59,13 +60,13 @@
 	                    <div class="modal-body">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 				<br>
-        			<p>When activated, search results are filtered by public school ranking.
+        			<p>When activated, search results are filtered on public school ranking.
 				<br>
-				<br>&bull; Low Ranking: Graduation rate in the 33rd percentile of national average.<br>
-				<br>&bull; Medium Ranking: Graduation rate between 33rd percentile and 66th percentile of national average.<br>
-				<br>&bull; High Ranking: Graduation rate greater than 66th percentile of national average.
+				<br>&bull; Low Ranking: Graduation rate less than 33rd percentile of national rates.<br>
+				<br>&bull; Medium Ranking: Graduation rate between 33rd percentile and 66th percentile of national rates.<br>
+				<br>&bull; High Ranking: Graduation rate greater than 66th percentile of national rates.
 				<br>
-				<br>Searches for low ranked schools include results for medium and high ranked schools. Likewise, searches for medium ranked schools include results for high ranked schools.
+				<br>Results of searches for low ranked schools include medium and high ranked schools. Likewise, results of searches for medium ranked schools include high ranked schools.
 				</p>
       			    </div>
     			</div>
@@ -104,13 +105,13 @@
 	                    <div class="modal-body">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 				<br>
-        			<p>When activated, search results are filtered by availability of public transportation.
+        			<p>When activated, search results are filtered on availability of public transportation.
 				<br>
-				<br>&bull; Low Availability: Public transportation usage in 33rd percentile of national average.<br>
-				<br>&bull; Medium Availability: Public transportation usage between 33rd and 66th percentile of national average.<br>
-				<br>&bull; High Availability: Public transportation usage greater than 66th percentile of national average.
+				<br>&bull; Low Availability: Public transportation usage less than 33rd percentile of national rates.<br>
+				<br>&bull; Medium Availability: Public transportation usage between 33rd and 66th percentile of national rates.<br>
+				<br>&bull; High Availability: Public transportation usage greater than 66th percentile of national rates.
 				<br>
-				<br>Searches for low availability include results for areas with medium and high availability. Likewise, searches for medium availability include results for areas with high availability.
+				<br>Results of searches for low availability include areas with medium and high availability. Likewise, results of searches for medium availability include areas with high availability.
 				</p>
       			    </div>
     			</div>
@@ -139,7 +140,13 @@
 	                    <div class="modal-body">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 				<br>
-        			<p>INSERT HELPER TEXT HERE</p>
+        			<p>When activated, search results are filtered on crime rate.
+				<br>
+				<br>&bull; Low Crime Rate: Crime rate less than 33rd percentile of national rates.<br>
+				<br>&bull; Average Crime Rate: Crime Rate between 33rd and 66th percentile of national rates.
+				<br>
+				<br>Results of searches for areas with average crime rates include areas with low crime rates.
+				</p>
       			    </div>
     			</div>
   		    </div>
@@ -162,7 +169,9 @@
 	                    <div class="modal-body">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 				<br>
-        			<p>INSERT HELPER TEXT HERE</p>
+        			<p>When activated, search results are filtered on availablity of outdoor recreation activities. Activating a subslider includes filtering on that activity (e.g. activating the hiking slider narrows the results to areas where hiking is possible).
+				<br>
+				</p>
       			    </div>
     			</div>
   		    </div>
