@@ -96,7 +96,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/controllers/search.php",                            // local database
+            url: "/code_fury/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
@@ -127,8 +127,8 @@ $(document).ready(function() {
                     cmarker.push(marker);
                 }
 
-                // This isn't working, but I think I'm getting closer
-                var markerClusterer = new MarkerClusterer(map, cmarkers, {imagePath: '/var/www/html/views/m'});
+                // Its working now!
+                var markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
 
             },
             error: function(resp) {
