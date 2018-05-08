@@ -101,33 +101,34 @@ $(document).ready(function() {
             dataType: "json",
             data: JSON.stringify(buildPost()),
             success: function(resp) {
+                results = resp; // update this global variable
+                        // TODO: delete all existing pins
+                clearMarkers();
 
-		results = resp; // update this global variable
-                // TODO: delete all existing pins
-		clearMarkers();
-
-
-		// Loop through and add all markers to map with results inside title
+                // Loop through and add all markers to map with results inside title
                 console.log("there are " + results.length + " results");
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
-		    var show = "Schools: " + results[i].public_schools + "\nTransportation: " +
-			 results[i].public_trans + "\nCommute:  " + results[i].commute_time + 
-			"\nCrime:  " + results[i].crime_rates + "\nHealthcare: " +
-			 results[i].healthcare + "\nPrecipitation: " + results[i].precipitation + 
-			"\nTemperature: " + results[i].ave_temp + "\n4Snow: " + results[i].snow;
+                    var show = "Schools: " + results[i].public_schools + 
+                            "\nTransportation: " + results[i].public_trans + 
+                            "\nCommute:  " + results[i].commute_time + 
+                            "\nCrime:  " + results[i].crime_rates + 
+                            "\nHealthcare: " + results[i].healthcare + 
+                            "\nPrecipitation: " + results[i].precipitation + 
+                            "\nTemperature: " + results[i].ave_temp + 
+                            "\n4Snow: " + results[i].snow;
+
                     marker = new google.maps.Marker({
-			position: position,
-			map: map,
-			title: show
-		    });
+                                position: position,
+                                map: map,
+                                title: show});
+
+                    cmarker.push(marker);
                 }
 
-		cmarker.push(marker);
-
-		// This isn't working, but I think I'm getting closer
-		//var markerClusterer = new MarkerClusterer(map, markers, {imagePath: '/var/www/html/views/m'});
+                // This isn't working, but I think I'm getting closer
+                var markerClusterer = new MarkerClusterer(map, cmarkers, {imagePath: '/var/www/html/views/m'});
 
             },
             error: function(resp) {
