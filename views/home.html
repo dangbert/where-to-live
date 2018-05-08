@@ -52,8 +52,26 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Public_Schools" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Public Schools</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
-            </span>
+                <h3 class="search-label">Public Schools</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#schoolModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="schoolModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>When activated, search results are filtered by public school ranking.
+				<br>
+				<br>&bull; Low Ranking: Graduation rate in the 33rd percentile of national average.<br>
+				<br>&bull; Medium Ranking: Graduation rate between 33rd percentile and 66th percentile of national average.<br>
+				<br>&bull; High Ranking: Graduation rate greater than 66th percentile of national average.
+				<br>
+				<br>Searches for low ranked schools include results for medium and high ranked schools. Likewise, searches for medium ranked schools include results for high ranked schools.
+				</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
+	    </span>
             <div class="detailed-criteria" id="public-schools">
                 <!-- <span>
                     <span class="school-detail-option sub-option">
@@ -79,7 +97,25 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Public_Transportation" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Public Transportation</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Public Transportation</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#transModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="transModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>When activated, search results are filtered by availability of public transportation.
+				<br>
+				<br>&bull; Low Availability: Public transportation usage in 33rd percentile of national average.<br>
+				<br>&bull; Medium Availability: Public transportation usage between 33rd and 66th percentile of national average.<br>
+				<br>&bull; High Availability: Public transportation usage greater than 66th percentile of national average.
+				<br>
+				<br>Searches for low availability include results for areas with medium and high availability. Likewise, searches for medium availability include results for areas with high availability.
+				</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="public-transportation">
                 <span>
@@ -96,7 +132,18 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Crime" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Crime</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Crime</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#crimeModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="crimeModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>INSERT HELPER TEXT HERE</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="crime">
                 <span>
@@ -108,7 +155,18 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Outdoor_Recreation" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Outdoor Recreation</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Outdoor Recreation</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#recModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="recModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>INSERT HELPER TEXT HERE</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="outdoor-recreation">
                 <span>
@@ -144,7 +202,18 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Climate" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Climate</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Climate</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#climModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="climModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>INSERT HELPER TEXT HERE</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="climate">
                 <span>
@@ -167,7 +236,18 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Health_Care" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Health Care</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Health Care</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#healthModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="healthModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>INSERT HELPER TEXT HERE</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="health-care">
                 <span>
@@ -179,7 +259,18 @@
             </div>
             <span class="checkbox">
                 <input checked class="toggle-menu-option" id="Commute_Time" data-toggle="toggle" type="checkbox">
-                <h3 class="search-label">Commute Time</h3><div class="helper-text" data-toggle="tooltip" data-placement="top" title="Helper Text"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></div>
+                <h3 class="search-label">Commute Time</h3><div class="helper-text"><button type="button" class="help-button" data-toggle="modal" data-target="#comModal"><svg class="helper-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg></button></div>
+		<div id="comModal" class="modal fade" role="dialog" data-backdrop="false">
+  		    <div class="modal-dialog">
+    		        <div class="modal-content">
+	                    <div class="modal-body">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				<br>
+        			<p>INSERT HELPER TEXT HERE</p>
+      			    </div>
+    			</div>
+  		    </div>
+	      	</div>
             </span>
             <div class="detailed-criteria" id="commute-time">
                 <span>
