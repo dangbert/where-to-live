@@ -97,7 +97,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/controllers/search.php",                            // local database
+            url: "../controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
