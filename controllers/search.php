@@ -124,12 +124,13 @@
     // RECREATION:
     if ($data["recreation"]["enabled"] === TRUE) {
         $activities = array("biking", "climbing", "camping", "hiking", "hunting", "wilderness", "swimming");
+        $str = "";
         foreach($activities as &$value) {
             if ($data["recreation"]["value"]["has_$value"] == TRUE) {
                 $str .= "($value >= 1) or ";
             }
         }
-        if ($str != " (") {  // make sure at least one activity was enabled
+        if ($str != "") {  // make sure at least one activity was enabled
             $str = ($first ? "" : " and ") . $str;
             $first = False;
             $sql .= "(" . substr($str, 0, -3) . ")";  // remove last 'or'
@@ -137,7 +138,7 @@
     }
 
 
-    if ($first == True) { // no results
+    if ($first) { // no results
         echo json_encode(array());
     }
     else {
