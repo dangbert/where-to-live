@@ -57,8 +57,8 @@
                                                 // high:    values >= [1]
         ),
         "healthcare" => array(
-            0 => 64.0,                          // average: values <= [0]        (66th percentile)
-                                                // high:    values > [1]
+            0 => 40.0,                          // average: [0] < values < [1]    (33rd percentile)
+            1 => 64.0,                          // high:    values >= [1]         (66th percentile)
         )
     );
 
@@ -67,27 +67,26 @@
     $first = True;                              // we have used any of the varibles yet
     //print_r($data);
 
-    // TODO: in the frontend, require that that at least one variable be enabled
     // TODO: add "or $col is NULL" to everything
 
     // build the condition portion of the sql query string
     $sql = "";
-    // SCHOOLS (0: low, 1: medium, 2:high)
+    // SCHOOLS (0: low, 1: medium, 2:high) (inclusive)
     if ($data["schools"]["enabled"] === TRUE) {
-        $sql .= prepareCondition($data["schools"]["value"], $ranges, "schools", "public_schools");
+        $sql .= prepareCondition($data["schools"]["value"], $ranges, "schools", "public_schools", true);
         $first = False;
     }
-    // TRANSPORTATION (0: low, 1: medium, 2: average)
+    // TRANSPORTATION (0: low, 1: medium, 2: average) (inclusive)
     if ($data["transportation"]["enabled"] === TRUE) {
         $sql .= ($first ? "" : " and ");
-        $sql .= prepareCondition($data["transportation"]["value"], $ranges, "transportation", "public_trans");
+        $sql .= prepareCondition($data["transportation"]["value"], $ranges, "transportation", "public_trans", true);
         $first = False;
     }
-    // CRIME (0: low, 1: average)
-    // TODO: do we want "average" to include low as well?
+    // CRIME (0: low, 1: average) (inclusive)
     if ($data["crime"]["enabled"] === TRUE) {
+        // average should include low as well
         $sql .= ($first ? "" : " and ");
-        $sql .= prepareCondition($data["crime"]["value"], $ranges, "crime", "crime_rates");
+        $sql .= " (crime_rates < " . $ranges["crime"][$data["crime"]["value"]] . ")";
         $first = False;
     }
     // CLIMATE
@@ -109,11 +108,11 @@
         $sql .= prepareCondition($data["climate"]["value"]["snowfall"], $ranges, "snowfall", "snow");
         $first = False;
     }
-    // HEALTHCARE (0: average, 1: high)
+    // HEALTHCARE (0: average, 1: high) (inclusive)
     if ($data["healthcare"]["enabled"] === TRUE) {
-        $symbol = ($data["healthcare"]["value"] === 0 ? "<=" : ">");
+        // high should include average as well
         $sql .= ($first ? "" : " and ");
-        $sql .= " (healthcare $symbol " . $ranges["healthcare"][0] . ")";
+        $sql .= " (healthcare > " . $ranges["healthcare"][$data["healthcare"]["value"]] . ")";
         $first = False;
     }
     // COMMUTE (value: int 0-60) (ensures commute is <= value)
@@ -161,23 +160,40 @@
         echo json_encode($arr);
     }
 
-
     // create portion of search string for given column
     // value:  int value representing the search preference
     // ranges: array of predefined ranges for the possible values
     // label:  name of key in ranges array
     // col:    name of column in counties table
-    function prepareCondition($value, $ranges, $label, $col) {
+    // inclusive: bool whether or not the search should be inclusive
+    //            (e.g. medium transportation would include high as well)
+    // returns a string
+    function prepareCondition($value, $ranges, $label, $col, $inclusive) {
         $str = "";
         //$value = $data[$label]["value"];
-        if ($value === 0) {
-            $str .= " ($col < " . $ranges[$label][0] . ")";
+        if ($inclusive) {
+            if ($value === 0) {
+                $str .= " ($col >= 0)"; // all results (where not null)
+            }
+            if ($value === 1) {
+                $str .= " ($col > " . $ranges[$label][0] . ")";
+            }
+            if ($value === 2) {
+                $str .= " ($col >= " . $ranges[$label][1] . ")";
+            }
         }
-        if ($value === 1) {
-            $str .= " ($col > " . $ranges[$label][0] . " and $col < " . $ranges["$label"][1] . ")";
-        }
-        if ($value === 2) {
-            $str .= " ($col >= " . $ranges[$label][1] . ")";
+        else {
+            $str = "";
+            //$value = $data[$label]["value"];
+            if ($value === 0) {
+                $str .= " ($col <= " . $ranges[$label][0] . ")";
+            }
+            if ($value === 1) {
+                $str .= " ($col > " . $ranges[$label][0] . " and $col < " . $ranges["$label"][1] . ")";
+            }
+            if ($value === 2) {
+                $str .= " ($col >= " . $ranges[$label][1] . ")";
+            }
         }
 
         return $str;
