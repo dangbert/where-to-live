@@ -1,10 +1,10 @@
 var imported = document.createElement('markerclusterer');
 imported.src = 'var/www/html/views/js';
 document.head.appendChild(imported);
+var markerClusterer = null;
 
 
 var results = []; // global array of most recent search results
-var markers = [];
 var cmarker = [];
 $(document).ready(function() {
     $( "#temp-range" ).slider({
@@ -92,6 +92,7 @@ $(document).ready(function() {
     });
 
     $("#search-button").on("click", function() {
+        clearMarkers(); // delete all existing pins on map
         console.log(JSON.stringify(buildPost()));
         $.ajax({
             type: "POST",
@@ -102,22 +103,21 @@ $(document).ready(function() {
             data: JSON.stringify(buildPost()),
             success: function(resp) {
                 results = resp; // update this global variable
-                        // TODO: delete all existing pins
-                clearMarkers();
 
                 // Loop through and add all markers to map with results inside title
                 console.log("there are " + results.length + " results");
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
-                    var show = "Schools: " + results[i].public_schools + 
+                    var show = "[" + results[i].county + ", " + results[i].state + "]" +
+                            "\nSchools:        " + results[i].public_schools + 
                             "\nTransportation: " + results[i].public_trans + 
                             "\nCommute:  " + results[i].commute_time + 
                             "\nCrime:  " + results[i].crime_rates + 
                             "\nHealthcare: " + results[i].healthcare + 
                             "\nPrecipitation: " + results[i].precipitation + 
-                            "\nTemperature: " + results[i].ave_temp + 
-                            "\n4Snow: " + results[i].snow;
+                            "\nTemperature: " + results[i].avg_temp + 
+                            "\nSnow:  " + results[i].snow;
 
                     marker = new google.maps.Marker({
                                 position: position,
@@ -128,8 +128,7 @@ $(document).ready(function() {
                 }
 
                 // Its working now!
-                var markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
-
+                markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
             },
             error: function(resp) {
                 console.log(resp);
@@ -139,8 +138,13 @@ $(document).ready(function() {
 });
 
 function clearMarkers(){
-    for(i = 0; i<cmarker.length; i++){
-	cmarker[i].setMap(null);
+    console.log("in clear markers " + cmarker.length);
+    for (i = 0; i<cmarker.length; i++) {
+        cmarker[i].setMap(null);
+    }
+    cmarker = [];
+    if (markerClusterer != null) {
+        markerClusterer.clearMarkers();
     }
 }
 
@@ -200,27 +204,9 @@ function initMap() {
 //        mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-
-    // see getBounds() from: https://developers.google.com/maps/documentation/javascript/reference/3/#Map
-    map.addListener('bounds_changed', function () {
-        console.log(map.getBounds());
-    });
-
 	//https://developers.google.com/places/place-id
 	// set up places service to search for counties and drop pins
 	service = new google.maps.places.PlacesService(map);
-
-	//makeRequest('Montgomery County Maryland');
-
-    // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
-//    var initialLocation;
-//    if(navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function(position) {
-//            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-//            map.setCenter(initialLocation);
-//            map.setZoom(11);
-//        });
-//    }
 }
 
 function buildPost(){
