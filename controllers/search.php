@@ -134,26 +134,32 @@
         }
     }
 
-    // this part of the query combines the tables (counties, states, recareas) into a table of rows of counties with the added fields state (state name) and fields for the number of recareas in the county that provide each rec activity
-    $combineQuery = "
-        (SELECT counties.*, states.name as state from counties join states on counties.state_id = states.id) t1
-        LEFT JOIN
-        (select county_id, sum(has_biking) as biking, sum(has_climbing) as climbing, sum(has_camping) as camping, sum(has_hiking) as hiking, sum(has_hunting) as hunting, sum(has_wilderness) as wilderness, sum(has_swimming) as swimming from recareas group by county_id) t2
-        ON t1.id = t2.county_id
-        ";
 
-    // final query string, apply the conditions to the combined table and just get the state and county name of the results
-    $sql = "SELECT state, name as county, public_schools, public_trans, commute_time, crime_rates, healthcare, precipitation, avg_temp, snow, biking, climbing, camping, hiking, hunting, wilderness, swimming, lat, lng FROM ($combineQuery) WHERE $sql;";
-    //echo $sql . "\n\n";
-
-    // do the query and return the results as JSON
-    $results = $db->query($sql)->fetchAll();
-    $arr = array();
-    foreach($results as &$row) {
-        array_push($arr, array("county" => $row["county"], "state" => $row["state"], "public_schools" => $row["public_schools"], "public_trans" => $row["public_trans"], "commute_time" => $row["commute_time"], "crime_rates" => $row["crime_rates"], "healthcare" => $row["healthcare"], "precipitation" => $row["precipitation"], "avg_temp" => $row["avg_temp"], "snow" => $row["snow"], "biking" => $row["biking"], "climbing" => $row["climbing"], "camping" => $row["camping"], "hiking" => $row["hiking"], "hunting" => $row["hunting"], "wilderness" => $row["wilderness"], "swimming" => $row["swimming"], "lat" => $row["lat"], "lng" => $row["lng"]));
-        //print_r($row);
+    if ($first == True) { // no results
+        echo json_encode(array());
     }
-    echo json_encode($arr);
+    else {
+        // this part of the query combines the tables (counties, states, recareas) into a table of rows of counties with the added fields state (state name) and fields for the number of recareas in the county that provide each rec activity
+        $combineQuery = "
+            (SELECT counties.*, states.name as state from counties join states on counties.state_id = states.id) t1
+            LEFT JOIN
+            (select county_id, sum(has_biking) as biking, sum(has_climbing) as climbing, sum(has_camping) as camping, sum(has_hiking) as hiking, sum(has_hunting) as hunting, sum(has_wilderness) as wilderness, sum(has_swimming) as swimming from recareas group by county_id) t2
+            ON t1.id = t2.county_id
+            ";
+
+        // final query string, apply the conditions to the combined table and just get the state and county name of the results
+        $sql = "SELECT state, name as county, public_schools, public_trans, commute_time, crime_rates, healthcare, precipitation, avg_temp, snow, biking, climbing, camping, hiking, hunting, wilderness, swimming, lat, lng FROM ($combineQuery) WHERE $sql;";
+        //echo $sql . "\n\n";
+
+        // do the query and return the results as JSON
+        $results = $db->query($sql)->fetchAll();
+        $arr = array();
+        foreach($results as &$row) {
+            array_push($arr, array("county" => $row["county"], "state" => $row["state"], "public_schools" => $row["public_schools"], "public_trans" => $row["public_trans"], "commute_time" => $row["commute_time"], "crime_rates" => $row["crime_rates"], "healthcare" => $row["healthcare"], "precipitation" => $row["precipitation"], "avg_temp" => $row["avg_temp"], "snow" => $row["snow"], "biking" => $row["biking"], "climbing" => $row["climbing"], "camping" => $row["camping"], "hiking" => $row["hiking"], "hunting" => $row["hunting"], "wilderness" => $row["wilderness"], "swimming" => $row["swimming"], "lat" => $row["lat"], "lng" => $row["lng"]));
+            //print_r($row);
+        }
+        echo json_encode($arr);
+    }
 
 
     // create portion of search string for given column

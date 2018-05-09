@@ -93,7 +93,7 @@ $(document).ready(function() {
 
     $("#search-button").on("click", function() {
         clearMarkers(); // delete all existing pins on map
-        console.log(JSON.stringify(buildPost()));
+        //console.log(JSON.stringify(buildPost()));
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
@@ -106,6 +106,10 @@ $(document).ready(function() {
 
                 // Loop through and add all markers to map with results inside title
                 console.log("there are " + results.length + " results");
+                if (results.length == 0) {
+                    alert("no results");
+                    return
+                }
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
@@ -138,7 +142,6 @@ $(document).ready(function() {
 });
 
 function clearMarkers(){
-    console.log("in clear markers " + cmarker.length);
     for (i = 0; i<cmarker.length; i++) {
         cmarker[i].setMap(null);
     }
