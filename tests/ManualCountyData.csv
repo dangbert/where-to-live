@@ -1,0 +1,10 @@
+countyName,state,geo_id,public_schools,public_trans,commute_time,crime_rates,healthcare,precipitation,avg_temp,snow
+Adair County,Iowa,05000US19001,,0.005465974,20.6108,49.04,40,3526,509,236
+Aiken County,South Carolina,05000US45003,0.85,0.001737328,24.0609,345.52,35,5115,635,5
+Cumberland County,New Jersey,05000US34011,,,,,,4375,546,130
+Drew County,Arkansas,05000US05043 ,,,,,,5347,637,6
+Island County,Washington,05000US53029 ,,,,,,2087,506,44
+Leflore County,Mississippi,05000US28083 ,,,,,,5965,637,12
+Meriwether County,Georgia,05000US13199 ,,,,,,4778,627,3
+Taney County,Missouri,05000US29213 ,,,,,,4369,564,82
+Valencia County,New Mexico,05000US35061 ,,,,,,977,557,57
