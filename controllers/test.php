@@ -39,7 +39,7 @@
         "public_schools" => $public_schools,
         "commute_time" => $commute_time,
         "crime_rates" => $crime_rates,
-        "healthcare " => $healthcare 
+        "healthcare" => $healthcare 
     );
 
     echo json_encode($result);
