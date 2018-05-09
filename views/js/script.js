@@ -114,14 +114,21 @@ $(document).ready(function() {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
                     var show = "[" + results[i].county + ", " + results[i].state + "]" +
-                            "\nSchools:        " + round(results[i].public_schools, 2) + 
-                            "\nTransportation: " + round(results[i].public_trans, 2) + 
-                            "\nCommute:  " + round(results[i].commute_time, 2) + 
-                            "\nCrime:  " + round(results[i].crime_rates, 2) + 
-                            "\nHealthcare: " + results[i].healthcare + 
-                            "\nPrecipitation: " + round(results[i].precipitation/100, 2) + 
+			"\nSchools:        " + round(results[i].public_schools, 2) + 
+			"\nTransportation: " + round(results[i].public_trans, 2) + 
+                        "\nCommute:  " + round(results[i].commute_time, 2) +
+			"\nHiking: " + results[i].hiking +
+			"          Climbing: " + results[i].climbing +
+			"\nCamping: " + results[i].camping +
+			"     Biking: " + results[i].biking +
+			"\nSwimming: " + results[i].swimming +
+			"  Wilderness: " + results[i].wilderness +
+			"\nHunting: " + results[i].hunting +
+                        "\nCrime:  " + round(results[i].crime_rates, 2) +
+                        "\nHealthcare: " + results[i].healthcare + 
+                        "\nPrecipitation: " + round(results[i].precipitation/100, 2) + 
                         "\nTemperature: " + round(results[i].avg_temp/10, 2) + 
-                            "\nSnow:  " + round(results[i].snow/10, 2);
+                        "\nSnow:  " + round(results[i].snow/10, 2);
 
                     marker = new google.maps.Marker({
                                 position: position,
