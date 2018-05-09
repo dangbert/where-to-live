@@ -93,7 +93,7 @@ def callDataUsa(geo_id):
 	
 	#print(resp.text)
 	
-	result = subprocess.run(['php', 'C:/wamp64/www/code_fury/controllers/test.php', '05000US19001'])
+	result = subprocess.run(['php', '../controllers/test.php', '05000US19001'])
 	print(result)
 	
 if __name__ == "__main__":

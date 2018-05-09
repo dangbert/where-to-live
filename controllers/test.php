@@ -21,7 +21,7 @@
     $sql = "SELECT id, geo_id, state_id FROM counties order by id asc;";
     $geoID = $_GET['geo_id'];
     // query datausa api for attributes about this county
-    $url = "http://api.datausa.io/api/?show=geo&sumlevel=county&geo=" . $geoID . "&year=latest&required=";
+    $url = "https://api.datausa.io/api/?show=geo&sumlevel=county&geo=" . $geoID . "&year=latest&required=";
     $public_trans_vals = getRequest($url . "transport_publictrans,workers")['data'][0];
     if (empty($public_trans_vals)) {
         $public_trans = NULL;
@@ -49,8 +49,7 @@
     // return: array
     function getRequest($url) {
         // url to GET info for this table
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         if (curl_errno($ch)) {                  // Check if any error occurred
