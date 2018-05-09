@@ -3,7 +3,7 @@ import json
 import pymysql
 import subprocess
 import csv
-import time
+import math
 
 #https:#stackoverflow.com/questions/23226074/simulating-ajax-post-call-using-python-requests
 #https:#stackoverflow.com/questions/31824222/python-request-post-to-php-server
@@ -12,12 +12,14 @@ def main():
 	#data = formatData(False,0,False,0,False,0,True,True,True,True,True,True,True,True,False,0,0,0,False,0,False,60)
 	data = {"schools":{"enabled":False,"value":0},"transportation":{"enabled":False,"value":0},"crime":{"enabled":False,"value":0},"recreation":{"enabled":True,"value":{"has_biking":True,"has_climbing":True,"has_camping":True,"has_hiking":True,"has_hunting":True,"has_wilderness":True,"has_swimming":True}},"climate":{"enabled":False,"value":{"temperature":0,"precipitation":0,"snowfall":0}},"healthcare":{"enabled":False,"value":0},"commute":{"enabled":False,"value":60}}
 	
-	callSearch(data)
+	#callSearch(data)
 	weather_test()
 	datausa_test()
 	
 	
-	
+# Verifies that the weather information in our database is correct
+#	Queries database for weather information and compares it to manually compiled data from original
+# 	csv data files
 def weather_test():
 	#creates a DictReader of all our hardcoded testdata
 	manualData = csv.DictReader(open('ManualCountyData.csv', 'r'))
@@ -32,28 +34,30 @@ def weather_test():
 		print("Weather Test Failed")
 		
 
-#TO DO: compare csv 
+# Tests that our method for pulling data from the Data USA API works correctly
+# 	Uses test.php to query the DataUsa API (we used the same method to get the information in our database) and
+#	compares those results to manually compiled data
 def datausa_test():
-	manualData = csv.DictReader(open('ManualCountyData.csv', 'r'))
-	
-	#This returns None in the loop
-	#result = callTestPhp('05000US05043')
-	#print(result)
-	
-	#I dont know why the last 5 ish 
-	for row in manualData:
-		result = callTestPhp(row['geo_id'])
-		print(result)
-		#print(row['geo_id'])
-		#result = callTestPhp('05000US35061')
-		#print(result)
-			#assert result[0] == float(row['precipitation'])
-			#assert result[1] == float(row['avg_temp'])
-			#assert result[2] == float(row['snow'])
-		
-	#except:
-	#	print("Failed")
 
+	manualData = csv.DictReader(open('ManualCountyData.csv', 'r'))
+	try:
+		for row in manualData:
+		
+			result = callTestPhp(row['geo_id'])
+		
+			# TO DO: check if public_trans is null
+			pub_trans = float(row['workers'])/float(row['transport_publictrans'])
+			
+			assert math.isclose(pub_trans, result['public_trans'], rel_tol=1e-13)
+			assert result['public_schools'] == (float(row['public_schools']) if row['public_schools'] != 'null' else None)
+			assert result['crime_rates'] == (float(row['crime_rates']) if row['crime_rates'] != 'null' else None)
+			assert result['commute_time'] == (float(row['commute_time']) if row['commute_time'] != 'null' else None)
+			assert result['healthcare '] == (float(row['healthcare']) if row['healthcare'] != 'null' else None)
+			
+		print("Passed")
+		
+	except:
+		print("Failed")
 	
 #some functions to help with database connection
 def getConnection():
@@ -101,12 +105,11 @@ def callSearch(data):
 	print(resp.text)
 	#prints the first result
 	#print(resp.json()[0])
- 
-# TO DO: run test.php and get results
+
+# Uses requests to make a get request to test.php with a county geo_id
+# Returns results from Data Usa API
 def callTestPhp(geo_id):
-	#proc = subprocess.call(["php /code_fury/controllers/test.php", '05000US19001'])
 	url = 'http://localhost/code_fury/controllers/test.php?geo_id=' + geo_id
-	#print(url)
 	s = requests.Session()
 	headers = requests.utils.default_headers()
 	resp = s.get(url)

@@ -97,7 +97,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/code_fury/controllers/search.php",                            // local database
+            url: "/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
@@ -114,14 +114,14 @@ $(document).ready(function() {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
                     var show = "[" + results[i].county + ", " + results[i].state + "]" +
-                            "\nSchools:        " + results[i].public_schools + 
-                            "\nTransportation: " + results[i].public_trans + 
-                            "\nCommute:  " + results[i].commute_time + 
-                            "\nCrime:  " + results[i].crime_rates + 
+                            "\nSchools:        " + round(results[i].public_schools, 2) + 
+                            "\nTransportation: " + round(results[i].public_trans, 2) + 
+                            "\nCommute:  " + round(results[i].commute_time, 2) + 
+                            "\nCrime:  " + round(results[i].crime_rates, 2) + 
                             "\nHealthcare: " + results[i].healthcare + 
-                            "\nPrecipitation: " + results[i].precipitation + 
-                            "\nTemperature: " + results[i].avg_temp + 
-                            "\nSnow:  " + results[i].snow;
+                            "\nPrecipitation: " + round(results[i].precipitation/100, 2) + 
+                        "\nTemperature: " + round(results[i].avg_temp/10, 2) + 
+                            "\nSnow:  " + round(results[i].snow/10, 2);
 
                     marker = new google.maps.Marker({
                                 position: position,
@@ -129,6 +129,14 @@ $(document).ready(function() {
                                 title: show});
 
                     cmarker.push(marker);
+
+		    // Pop up for markers
+		    google.maps.event.addListener(marker, 'click', (function(marker,i) {
+			return function() {
+			    infowindow.setContent(results[i]);
+			    infowindow.open(map, marker);
+			}
+		    })(marker, i));
                 }
 
                 // Its working now!
@@ -149,6 +157,10 @@ function clearMarkers(){
     if (markerClusterer != null) {
         markerClusterer.clearMarkers();
     }
+}
+
+function round(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
 
