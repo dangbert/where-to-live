@@ -34,8 +34,8 @@
                                                 // high:    values >= [1]
         ),
         "transportation" => array(
-            0 => 0.0018959374599999991,         // low:     values <= [0]        (33rd percentile)
-            1 => 0.005931874919999998           // medium:  [0] < values < [1]   (66th percentile)
+            0 => 0.01,                          // low:     values <= [0]        (manually set)
+            1 => 0.07                           // medium:  [0] < values < [1]   (manually set)
                                                 // high:    values >= [1]
         ),
         "crime" => array(
