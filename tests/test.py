@@ -3,6 +3,7 @@ import json
 import pymysql
 import subprocess
 import csv
+import time
 
 #https:#stackoverflow.com/questions/23226074/simulating-ajax-post-call-using-python-requests
 #https:#stackoverflow.com/questions/31824222/python-request-post-to-php-server
@@ -19,7 +20,7 @@ def main():
 	
 def weather_test():
 	#creates a DictReader of all our hardcoded testdata
-	manualData = csv.DictReader(open('ManualCountyData.csv'))
+	manualData = csv.DictReader(open('ManualCountyData.csv', 'r'))
 	try:
 		for row in manualData:
 			result = weatherResults(row['countyName'], row['state'])
@@ -33,7 +34,26 @@ def weather_test():
 
 #TO DO: compare csv 
 def datausa_test():
-	callDataUsa('05000US19001')
+	manualData = csv.DictReader(open('ManualCountyData.csv', 'r'))
+	
+	#This returns None in the loop
+	#result = callTestPhp('05000US05043')
+	#print(result)
+	
+	#I dont know why the last 5 ish 
+	for row in manualData:
+		result = callTestPhp(row['geo_id'])
+		print(result)
+		#print(row['geo_id'])
+		#result = callTestPhp('05000US35061')
+		#print(result)
+			#assert result[0] == float(row['precipitation'])
+			#assert result[1] == float(row['avg_temp'])
+			#assert result[2] == float(row['snow'])
+		
+	#except:
+	#	print("Failed")
+
 	
 #some functions to help with database connection
 def getConnection():
@@ -83,18 +103,19 @@ def callSearch(data):
 	#print(resp.json()[0])
  
 # TO DO: run test.php and get results
-def callDataUsa(geo_id):
+def callTestPhp(geo_id):
 	#proc = subprocess.call(["php /code_fury/controllers/test.php", '05000US19001'])
-	#print("Doesnt work")
-	#url = 'https://localhost/code_fury/controllers/search.php'
-	#s = requests.Session()
-	#headers = requests.utils.default_headers()
-	#resp = s.get(url, data = geo_id, headers = headers)
+	url = 'http://localhost/code_fury/controllers/test.php?geo_id=' + geo_id
+	#print(url)
+	s = requests.Session()
+	headers = requests.utils.default_headers()
+	resp = s.get(url)
 	
-	#print(resp.text)
+	if resp.status_code == 200:
+		return(resp.json())
+	else:
+		return 'error'
 	
-	result = subprocess.run(['php', '../controllers/test.php', '05000US19001'])
-	print(result)
 	
 if __name__ == "__main__":
 	main()

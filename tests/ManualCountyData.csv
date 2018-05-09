@@ -1,10 +1,10 @@
 countyName,state,geo_id,public_schools,public_trans,commute_time,crime_rates,healthcare,precipitation,avg_temp,snow
 Adair County,Iowa,05000US19001,,0.005465974,20.6108,49.04,40,3526,509,236
 Aiken County,South Carolina,05000US45003,0.85,0.001737328,24.0609,345.52,35,5115,635,5
-Cumberland County,New Jersey,05000US34011,,,,,,4375,546,130
-Drew County,Arkansas,05000US05043 ,,,,,,5347,637,6
-Island County,Washington,05000US53029 ,,,,,,2087,506,44
-Leflore County,Mississippi,05000US28083 ,,,,,,5965,637,12
-Meriwether County,Georgia,05000US13199 ,,,,,,4778,627,3
-Taney County,Missouri,05000US29213 ,,,,,,4369,564,82
-Valencia County,New Mexico,05000US35061 ,,,,,,977,557,57
+Cumberland County,New Jersey,05000US34011,0.823,0.019913262,23.0461,532.96,48,4375,546,130
+Drew County,Arkansas,05000US05043 ,0.86,0,21.459,395.66,64,5347,637,6
+Island County,Washington,05000US53029 ,0.838,0.024628057,26.9128,111.6,38,2087,506,44
+Leflore County,Mississippi,05000US28083 ,0.678,0.003567182,16.082,636.43,60,5965,637,12
+Meriwether County,Georgia,05000US13199 ,0.84,0.006529973,31.2511,302.1,33,4778,627,3
+Taney County,Missouri,05000US29213 ,0.944,0.007094028,20.2997,446.6,77,4369,564,82
+Valencia County,New Mexico,05000US35061 ,0.746,0.01303155,27.789,758.62,30,977,557,57
