@@ -126,10 +126,13 @@
         $activities = array("biking", "climbing", "camping", "hiking", "hunting", "wilderness", "swimming");
         foreach($activities as &$value) {
             if ($data["recreation"]["value"]["has_$value"] == TRUE) {
-                $sql .= ($first ? "" : " and ");
-                $sql .= "($value >= 1)";
-                $first = False;
+                $str .= "($value >= 1) or ";
             }
+        }
+        if ($str != " (") {  // make sure at least one activity was enabled
+            $str = ($first ? "" : " and ") . $str;
+            $first = False;
+            $sql .= "(" . substr($str, 0, -3) . ")";  // remove last 'or'
         }
     }
 
