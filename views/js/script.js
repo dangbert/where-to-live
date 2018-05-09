@@ -119,9 +119,9 @@ $(document).ready(function() {
                             "\nCommute:  " + round(results[i].commute_time, 2) + 
                             "\nCrime:  " + round(results[i].crime_rates, 2) + 
                             "\nHealthcare: " + results[i].healthcare + 
-                            "\nPrecipitation: " + round(results[i].precipitation, 2) + 
-                            "\nTemperature: " + results[i].avg_temp + 
-                            "\nSnow:  " + round(results[i].snow, 2);
+                            "\nPrecipitation: " + round(results[i].precipitation/100, 2) + 
+                        "\nTemperature: " + round(results[i].avg_temp/10, 2) + 
+                            "\nSnow:  " + round(results[i].snow/10, 2);
 
                     marker = new google.maps.Marker({
                                 position: position,
