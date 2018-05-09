@@ -118,11 +118,11 @@ $(document).ready(function() {
 			"\nTransportation: " + round(results[i].public_trans, 2) + 
                         "\nCommute:  " + round(results[i].commute_time, 2) +
 			"\nHiking: " + results[i].hiking +
-			"          Climbing: " + results[i].climbing +
+			"\t\tClimbing: " + results[i].climbing +
 			"\nCamping: " + results[i].camping +
-			"     Biking: " + results[i].biking +
+			"\tBiking: " + results[i].biking +
 			"\nSwimming: " + results[i].swimming +
-			"  Wilderness: " + results[i].wilderness +
+			"\tWilderness: " + results[i].wilderness +
 			"\nHunting: " + results[i].hunting +
                         "\nCrime:  " + round(results[i].crime_rates, 2) +
                         "\nHealthcare: " + results[i].healthcare + 
