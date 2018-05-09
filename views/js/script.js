@@ -1,10 +1,10 @@
 var imported = document.createElement('markerclusterer');
 imported.src = 'var/www/html/views/js';
 document.head.appendChild(imported);
+var markerClusterer = null;
 
 
 var results = []; // global array of most recent search results
-var markers = [];
 var cmarker = [];
 $(document).ready(function() {
     $( "#temp-range" ).slider({
@@ -92,32 +92,36 @@ $(document).ready(function() {
     });
 
     $("#search-button").on("click", function() {
-        console.log(JSON.stringify(buildPost()));
+        clearMarkers(); // delete all existing pins on map
+        //console.log(JSON.stringify(buildPost()));
         $.ajax({
             type: "POST",
             //url: "http://52.53.103.102/code_fury/controllers/search.php", // AWS database
-            url: "/code_fury/controllers/search.php",                            // local database
+            url: "/controllers/search.php",                            // local database
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(buildPost()),
             success: function(resp) {
                 results = resp; // update this global variable
-                        // TODO: delete all existing pins
-                clearMarkers();
 
                 // Loop through and add all markers to map with results inside title
                 console.log("there are " + results.length + " results");
+                if (results.length == 0) {
+                    alert("no results");
+                    return
+                }
                 for(var i=0; i<results.length; i++) {
                     // show a pin for the current county
                     var position = new google.maps.LatLng(results[i].lat, results[i].lng);
-                    var show = "Schools: " + results[i].public_schools + 
-                            "\nTransportation: " + results[i].public_trans + 
-                            "\nCommute:  " + results[i].commute_time + 
-                            "\nCrime:  " + results[i].crime_rates + 
+                    var show = "[" + results[i].county + ", " + results[i].state + "]" +
+                            "\nSchools:        " + round(results[i].public_schools, 2) + 
+                            "\nTransportation: " + round(results[i].public_trans, 2) + 
+                            "\nCommute:  " + round(results[i].commute_time, 2) + 
+                            "\nCrime:  " + round(results[i].crime_rates, 2) + 
                             "\nHealthcare: " + results[i].healthcare + 
-                            "\nPrecipitation: " + results[i].precipitation + 
-                            "\nTemperature: " + results[i].ave_temp + 
-                            "\n4Snow: " + results[i].snow;
+                            "\nPrecipitation: " + round(results[i].precipitation, 2) + 
+                            "\nTemperature: " + results[i].avg_temp + 
+                            "\nSnow:  " + round(results[i].snow, 2);
 
                     marker = new google.maps.Marker({
                                 position: position,
@@ -125,11 +129,18 @@ $(document).ready(function() {
                                 title: show});
 
                     cmarker.push(marker);
+
+		    // Pop up for markers
+		    google.maps.event.addListener(marker, 'click', (function(marker,i) {
+			return function() {
+			    infowindow.setContent(results[i]);
+			    infowindow.open(map, marker);
+			}
+		    })(marker, i));
                 }
 
                 // Its working now!
-                var markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
-
+                markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
             },
             error: function(resp) {
                 console.log(resp);
@@ -139,9 +150,17 @@ $(document).ready(function() {
 });
 
 function clearMarkers(){
-    for(i = 0; i<cmarker.length; i++){
-	cmarker[i].setMap(null);
+    for (i = 0; i<cmarker.length; i++) {
+        cmarker[i].setMap(null);
     }
+    cmarker = [];
+    if (markerClusterer != null) {
+        markerClusterer.clearMarkers();
+    }
+}
+
+function round(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
 
 
@@ -200,27 +219,9 @@ function initMap() {
 //        mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-
-    // see getBounds() from: https://developers.google.com/maps/documentation/javascript/reference/3/#Map
-    map.addListener('bounds_changed', function () {
-        console.log(map.getBounds());
-    });
-
 	//https://developers.google.com/places/place-id
 	// set up places service to search for counties and drop pins
 	service = new google.maps.places.PlacesService(map);
-
-	//makeRequest('Montgomery County Maryland');
-
-    // attempt to get user location with W3C Geolocation (Preferred). see: tinyurl.com/gmproj3
-//    var initialLocation;
-//    if(navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function(position) {
-//            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-//            map.setCenter(initialLocation);
-//            map.setZoom(11);
-//        });
-//    }
 }
 
 function buildPost(){
