@@ -131,9 +131,9 @@
             }
         }
         if ($str != "") {  // make sure at least one activity was enabled
-            $str = ($first ? "" : " and ") . $str;
+            $str = ($first ? " (" : " and (") . $str;
+            $sql .= substr($str, 0, -3) . ")";  // remove last 'or'
             $first = False;
-            $sql .= "(" . substr($str, 0, -3) . ")";  // remove last 'or'
         }
     }
 
