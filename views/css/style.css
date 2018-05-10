@@ -167,6 +167,7 @@ li:nth-child(3n+1){ /*replace 4 with the number of columns*/
 }
 
 .modal-content{
+	z-index: 1000;
     color: #2e1a12;
     background-color: #dfdfdf;
 }
