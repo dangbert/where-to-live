@@ -150,6 +150,7 @@ $(document).ready(function() {
                 markerClusterer = new MarkerClusterer(map, cmarker, {imagePath: 'm/m'});
             },
             error: function(resp) {
+                alert("ERROR: search failed with status code " + resp.status);
                 console.log(resp);
             }
         });
