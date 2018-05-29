@@ -100,12 +100,12 @@
         }
         // PRECIPITATION (0: low, 1: medium, 2: high)
         $sql .= ($first ? "" : " and ");
-        $sql .= prepareCondition($data["climate"]["value"]["precipitation"], $ranges, "precipitation", "precipitation");
+        $sql .= prepareCondition($data["climate"]["value"]["precipitation"], $ranges, "precipitation", "precipitation", false);
         $first = False;
 
         // SNOWFALL (0: low, 1: medium, 2: high)
         $sql .= ($first ? "" : " and ");
-        $sql .= prepareCondition($data["climate"]["value"]["snowfall"], $ranges, "snowfall", "snow");
+        $sql .= prepareCondition($data["climate"]["value"]["snowfall"], $ranges, "snowfall", "snow", false);
         $first = False;
     }
     // HEALTHCARE (0: average, 1: high) (inclusive)
