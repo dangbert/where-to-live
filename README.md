@@ -1,11 +1,15 @@
 # Where to Live (aka. code_fury)
+<img src="/docs/screeshot-search.png?raw=true" alt="search results" width="100%">
+
 ## What is it?
-* This is a website that suggests potential counties for the user to live in based off their search preferences.
+* A website that suggests potential counties for the user to live in based off their search preferences.
   * This was a group project for UMBC CMSC447 (Software Engineering).
 * The core of this project is a custom SQL database we created using data from:
   * [datausa.io API](https://github.com/DataUSA/datausa-api/wiki/Data-API)
   * https://ridb.recreation.gov/
   * [NOAA Weather Data](https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/climate-normals/1981-2010-normals-data)
+
+<img src="/docs/tables_preview.png?raw=true" alt="search results" width="500">
   
 ## How we did it:
 * We designed a database schema and populated it by creating PHP and python scripts to scrape the datausa.io API, and to ingest CSV and TXT files.
