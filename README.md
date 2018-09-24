@@ -12,7 +12,7 @@
 * Website backend uses Apache, PHP, SQL
 * Website frontend created with HTML, CSS, JS.  Serves as a UI for a user to indicate search preferences and see the results on a map using the Google Maps Javascript API.
 
-
+---
 # How to Setup the Site:
 ## Apache/PHP Installation:
 ### Windows Setup:
@@ -45,10 +45,10 @@ sudo yum install php php-gd php-mysql php-mcrypt
 ````
 Note that the configuation file for apache is located at: /etc/httpd/conf/httpd.conf
 
-## Database setup
-### Create the database and database user with the mysql cli:
-start the database on linux:
+### Database setup:
+Create the database and database user with the mysql cli:
 ````bash
+# start the database on linux:
 systemctl start mariadb.service
 ````
 
